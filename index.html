@@ -1,0 +1,578 @@
+﻿<!DOCTYPE html><html lang="bn">
+<head>    
+    <meta charset="UTF-8">    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>EVO X GAMING | Official Store</title>    
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>    
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database-compat.js"></script>    
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>    
+    <script src="https://cdn.tailwindcss.com"></script>    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">    
+    <style>        
+        :root { --pipo: #208d5e; }        
+        .bg-pipo { background-color: var(--pipo); }        
+        .text-pipo { color: var(--pipo); }        
+        .hidden-section { display: none; }        
+        .card-active { border: 2px solid var(--pipo) !important; background: #f0fdf4; }        
+        .method-active { border: 2px solid var(--pipo) !important; background: #f0fdf4; }
+        .offline-mode { filter: grayscale(1); pointer-events: none; opacity: 0.6; }    
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900 select-none">
+
+<audio id="notif-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-84.wav" preload="auto"></audio>
+
+<nav class="bg-white shadow-md sticky top-0 z-50 p-4">    
+    <div class="container mx-auto flex justify-between items-center">        
+        <h1 class="text-2xl font-black cursor-pointer" onclick="show('home')">            
+            <span class="text-pipo">EVO X</span> GAMING        
+        </h1>        
+        <div class="flex items-center gap-3">            
+            <div id="logged-in-ui" class="hidden flex items-center gap-2">                
+                <span id="user-display" onclick="show('history')" class="cursor-pointer font-bold text-[10px] bg-green-50 text-pipo border border-green-200 px-3 py-1 rounded-full uppercase hover:bg-green-100"></span>                
+                <button onclick="handleLogout()" class="text-[10px] text-red-600 font-bold border border-red-200 px-2 py-1 rounded">Logout</button>            
+            </div>            
+            <button id="login-btn" onclick="show('login')" class="bg-pipo text-white px-5 py-1.5 rounded-full text-sm font-bold shadow-md">Login</button>            
+            <button onclick="askAdmin()" class="bg-gray-800 text-white p-2 rounded-full text-[10px]"><i class="fa-solid fa-lock"></i></button>        
+        </div>    
+    </div>
+</nav>
+
+<div class="container mx-auto px-4 py-6 max-w-4xl">    
+    <div id="offline-msg" class="hidden bg-red-600 text-white p-4 rounded-2xl mb-6 text-center font-bold">        
+        সার্ভার এখন অফলাইন।    
+    </div>    
+
+    <div id="section-home">        
+        <div class="bg-white p-3 rounded-xl border-l-8 border-pipo mb-6 shadow-sm">            
+            <marquee id="view-notice" class="font-bold text-pipo italic">Welcome to EVO X GAMING! কম দামে দ্রুত টপ-আপ!</marquee>        
+        </div>        
+        
+        <div id="promo-banner" class="relative rounded-3xl mb-8 shadow-lg overflow-hidden h-48 sm:h-56 bg-cover bg-center transition-all duration-700" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1000');">
+            <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-60"></div>
+            <div class="relative z-10 p-6 sm:p-8 flex flex-col justify-center h-full text-white">
+                <h2 class="text-3xl font-black mb-2 drop-shadow-md uppercase tracking-wider" id="banner-title">EVO X STORE</h2>
+                <p class="text-xs sm:text-sm opacity-95 max-w-md drop-shadow" id="banner-subtitle">১ সেকেন্ডে গেম টপ-আপ কিনবেন কীভাবে? আপনার প্লেয়ার আইডি দিয়ে এখনই অর্ডার করুন।</p>
+            </div>
+        </div>
+
+        <h3 class="font-black text-2xl text-center mb-6 text-gray-800">New Game <span class="text-pipo">Top-Up</span></h3>
+        
+        <div id="game-cards-container" class="grid grid-cols-2 sm:grid-cols-3 gap-4"></div>
+    </div>    
+
+    <div id="section-topup" class="hidden-section">
+        <button onclick="show('home')" class="mb-4 text-pipo font-bold flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+        <div id="main-content-area" class="grid grid-cols-1 md:grid-cols-2 gap-6">            
+            <div class="bg-white p-6 rounded-2xl shadow-xl border">                
+                <h2 id="topup-game-title" class="font-black text-xl text-pipo mb-4 uppercase">Game Name</h2>
+                
+                <h3 class="font-bold text-sm mb-4"><i class="fa-solid fa-bolt text-pipo"></i> Enter Player ID (UID)</h3>                
+                <input type="number" id="order-pid" placeholder="Enter Player ID (UID)" class="w-full border p-3 rounded-xl bg-gray-50 mb-6 outline-none focus:ring-2 ring-green-500">                
+                
+                <h4 class="font-bold text-sm mb-3">Select Diamond Pack:</h4>                
+                <div id="item-list" class="grid grid-cols-2 gap-3 mb-6"></div>                
+                
+                <h4 class="font-bold text-sm mb-3">Select Payment Method:</h4>
+                <div class="grid grid-cols-3 gap-2 mb-4">
+                    <div onclick="selectMethod('bKash')" id="method-bkash" class="border p-2 rounded-xl text-center cursor-pointer font-bold text-xs text-pink-600">bKash</div>
+                    <div onclick="selectMethod('Nagad')" id="method-nagad" class="border p-2 rounded-xl text-center cursor-pointer font-bold text-xs text-orange-600">Nagad</div>
+                    <div onclick="selectMethod('Rocket')" id="method-rocket" class="border p-2 rounded-xl text-center cursor-pointer font-bold text-xs text-purple-600">Rocket</div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">                    
+                    <div class="flex justify-between mb-2">                        
+                        <p class="text-[10px] font-bold text-gray-700"><span id="selected-method-name">bKash</span> (Send Money)</p>                        
+                        <span id="view-num" class="text-sm font-black text-pipo">01XXXXXXXXX</span>                    
+                    </div>                    
+                    <input type="text" id="order-trx" placeholder="Transaction ID (TrxID)" class="w-full border p-2.5 rounded-lg bg-white uppercase">                
+                </div>                
+                <button id="order-btn" onclick="placeOrder()" class="w-full bg-pipo text-white py-4 rounded-2xl font-bold mt-6 shadow-xl active:scale-95 transition">Confirm Order</button>            
+            </div>            
+            
+            <div class="space-y-4">                
+                <div class="bg-gray-900 text-white p-5 rounded-2xl flex items-center justify-between">                    
+                    <div>                        
+                        <p class="text-[10px] opacity-50 uppercase tracking-widest">Server Status</p>                        
+                        <p id="status-text" class="font-bold text-green-400">ONLINE</p>                    
+                    </div>                    
+                    <i class="fa-solid fa-shield-halved text-2xl text-gray-700"></i>                
+                </div>            
+            </div>        
+        </div>
+    </div>
+
+    <div id="section-login" class="hidden-section max-w-sm mx-auto bg-white p-8 rounded-2xl shadow-2xl border mt-10">        
+        <h2 class="text-center font-black text-2xl mb-6">Get Started</h2>                
+        <button onclick="loginWithGoogle()" class="w-full bg-white border-2 border-gray-100 text-gray-700 py-3 rounded-xl font-bold shadow-sm mb-6 flex items-center justify-center gap-3 hover:bg-gray-50 active:scale-95 transition border-pipo">            
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" alt="Google">            
+            Continue with Google        
+        </button>        
+        <div class="relative flex items-center mb-6">            
+            <div class="flex-grow border-t"></div>            
+            <span class="mx-3 text-gray-400 text-[10px] uppercase">OR EMAIL LOGIN</span>            
+            <div class="flex-grow border-t"></div>        
+        </div>        
+        <div class="flex border-b mb-6 text-black">            
+            <button onclick="toggleAuthTab('in')" id="tab-login" class="flex-1 pb-2 font-bold border-b-2 border-pipo text-pipo">Login</button>            
+            <button onclick="toggleAuthTab('up')" id="tab-signup" class="flex-1 pb-2 font-bold text-gray-400">Sign Up</button>        
+        </div>        
+        <div class="space-y-4">            
+            <input type="email" id="auth-email" placeholder="Email" class="w-full border p-3 rounded-lg outline-none">            
+            <input type="password" id="auth-pass" placeholder="Password" class="w-full border p-3 rounded-lg outline-none">            
+            <button id="auth-main-btn" onclick="handleAuth()" class="w-full bg-pipo text-white py-3 rounded-lg font-bold">Proceed</button>        
+        </div>    
+    </div>    
+
+    <div id="section-history" class="hidden-section">        
+        <div class="bg-gradient-to-r from-green-600 to-emerald-800 text-white p-6 rounded-2xl shadow-md mb-6">
+            <p class="text-xs opacity-70">User Account Profile</p>
+            <h3 id="profile-email-title" class="text-lg font-bold">loading...</h3>
+            <div class="mt-4 flex gap-4 text-xs">
+                <div><p class="opacity-60">Total Placed</p><p id="count-total" class="text-xl font-black">0</p></div>
+                <div class="border-l border-white/20 pl-4"><p class="opacity-60">Completed</p><p id="count-success" class="text-xl font-black text-green-300">0</p></div>
+            </div>
+        </div>
+        <div class="flex justify-between items-center mb-4">            
+            <h2 class="text-lg font-bold text-gray-800">My Orders History</h2>            
+            <button onclick="show('home')" class="text-pipo font-bold text-sm">Back to Home</button>        
+        </div>        
+        <div id="history-container" class="space-y-3 pb-20"></div>    
+    </div>    
+
+    <div id="section-admin" class="hidden-section text-black">        
+        <div class="flex justify-between items-center mb-6 bg-black text-white p-4 rounded-xl">            
+            <h2 class="font-bold text-green-400 tracking-wider">ADMIN PANEL v2.0 Pro</h2>            
+            <button onclick="show('home')" class="bg-red-600 px-3 py-1 rounded text-xs font-bold">Exit</button>        
+        </div>        
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">            
+            <div class="bg-white p-4 border rounded-xl shadow-sm">                
+                <h3 class="font-bold border-b mb-3 text-sm text-pipo"><i class="fa-solid fa-sliders"></i> Base Config</h3>                
+                <div class="flex gap-2 mb-3">                    
+                    <button onclick="toggleServer(true)" class="flex-1 bg-green-500 text-white py-1 rounded text-[10px] font-bold">ONLINE</button>                    
+                    <button onclick="toggleServer(false)" class="flex-1 bg-red-500 text-white py-1 rounded text-[10px] font-bold">OFFLINE</button>                
+                </div>                
+                <input type="text" id="adm-notice" placeholder="Marquee Notice" class="w-full border p-2 mb-2 rounded text-xs">                
+                <div class="space-y-1.5 mb-3">
+                    <input type="text" id="adm-bkash" placeholder="bKash No." class="w-full border p-2 rounded text-[10px]">
+                    <input type="text" id="adm-nagad" placeholder="Nagad No." class="w-full border p-2 rounded text-[10px]">
+                    <input type="text" id="adm-rocket" placeholder="Rocket No." class="w-full border p-2 rounded text-[10px]">
+                </div>                
+                <button onclick="saveSettings()" class="w-full bg-black text-white py-2 rounded text-xs font-bold">Update Core Settings</button>            
+            </div>            
+            
+            <div class="bg-white p-4 border rounded-xl shadow-sm">                
+                <h3 class="font-bold border-b mb-3 text-sm text-blue-600"><i class="fa-solid fa-gamepad"></i> Game Cards</h3>                
+                <input type="text" id="adm-gname" placeholder="Game Title" class="w-full border p-2 mb-2 rounded text-xs">                
+                <input type="text" id="adm-gimg" placeholder="Banner Image Link" class="w-full border p-2 mb-3 rounded text-xs">                
+                <button onclick="addGame()" class="w-full bg-blue-600 text-white py-2 rounded text-xs font-bold">Register Card</button>            
+            </div>        
+
+            <div class="bg-white p-4 border rounded-xl shadow-sm flex flex-col justify-between">                
+                <div>
+                    <h3 class="font-bold border-b mb-2 text-sm text-purple-600"><i class="fa-solid fa-images"></i> Promo Slider & Social Links</h3>                
+                    <input type="text" id="adm-btitle" placeholder="Slide Title text" class="w-full border p-1.5 mb-1.5 rounded text-xs">                
+                    <input type="text" id="adm-bsub" placeholder="Slide Subtitle info" class="w-full border p-1.5 mb-1.5 rounded text-xs">                
+                    <input type="text" id="adm-burl" placeholder="Slide Cover Photo Link" class="w-full border p-1.5 mb-2 rounded text-xs">                
+                    <div class="grid grid-cols-2 gap-1.5 mb-2">
+                        <input type="text" id="adm-tg" placeholder="Telegram Username (e.g. evox)" class="border p-1.5 rounded text-[10px]">
+                        <input type="text" id="adm-wa" placeholder="WhatsApp Num (e.g. 01700...)" class="border p-1.5 rounded text-[10px]">
+                    </div>
+                </div>
+                <button onclick="updateBannerConfig()" class="w-full bg-purple-600 text-white py-2 rounded text-xs font-bold">Push Config Update</button>            
+            </div>        
+        </div>        
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div class="bg-white p-4 border rounded-xl shadow-sm">                
+                <h3 class="font-bold border-b mb-3 text-sm text-green-600"><i class="fa-solid fa-square-plus"></i> Add Diamonds Pack</h3>                
+                <select id="adm-icategory" class="w-full border p-2 mb-2 rounded text-xs bg-gray-50 outline-none"></select>
+                <input type="text" id="adm-iname" placeholder="Diamond Content (e.g. 250 Diamonds)" class="w-full border p-2 mb-2 rounded text-xs">                
+                <input type="number" id="adm-iprice" placeholder="Price Amount (৳)" class="w-full border p-2 mb-3 rounded text-xs">                
+                <button onclick="addItem()" class="w-full bg-green-600 text-white py-2 rounded text-xs font-bold">Confirm Bundle</button>            
+            </div>
+
+            <div class="bg-white p-4 border rounded-xl shadow-sm">
+                <h3 class="font-bold border-b mb-2 text-sm text-red-500">Active Game Category Lists</h3>
+                <div id="adm-game-list" class="space-y-1.5 max-h-40 overflow-y-auto"></div>
+            </div>
+        </div>
+        
+        <h3 class="font-bold mb-2 text-sm text-gray-700">Database Bundle List Packages</h3>
+        <div id="adm-item-list" class="grid grid-cols-2 gap-2 mb-6 bg-white p-4 border rounded-xl max-h-48 overflow-y-auto"></div>
+
+        <h3 class="font-bold mb-4 text-sm text-gray-700">Customer Placement Incoming Queue</h3>        
+        <div id="adm-orders" class="space-y-3 mb-20"></div>    
+    </div>
+</div>
+
+<div class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5">
+    <a id="link-wa" href="https://wa.me/8801700000000" target="_blank" class="w-12 h-12 bg-green-500 text-white text-xl flex items-center justify-center rounded-full shadow-2xl hover:scale-110 active:scale-90 transition"><i class="fa-brands fa-whatsapp"></i></a>
+    <a id="link-tg" href="https://t.me/evoxgaming" target="_blank" class="w-12 h-12 bg-blue-500 text-white text-xl flex items-center justify-center rounded-full shadow-2xl hover:scale-110 active:scale-90 transition"><i class="fa-brands fa-telegram"></i></a>
+</div>
+
+<script>    
+    // FIREBASE CONFIG    
+    const firebaseConfig = {        
+        apiKey: "AIzaSyD2J363sc8-9e5fFh2tdQvqM4OLDkJJYLo",        
+        authDomain: "evo-x-gaming.firebaseapp.com",        
+        databaseURL: "https://evo-x-gaming-default-rtdb.asia-southeast1.firebasedatabase.app",        
+        projectId: "evo-x-gaming",        
+        storageBucket: "evo-x-gaming.firebasestorage.app",        
+        messagingSenderId: "501674992039",        
+        appId: "1:501674992039:web:5a7bc97449dfd0c22b1682"    
+    };    
+    
+    firebase.initializeApp(firebaseConfig);    
+    const db = firebase.database();    
+    const auth = firebase.auth();    
+    
+    let currentUser = null;    
+    let selectedPkg = null;    
+    let selectedMethod = "bKash";
+    let authMode = "in";    
+    let isServerOnline = true;    
+    let serverWalletData = {}; 
+    let activeCategory = ""; 
+    let globalItemsData = {}; 
+    let orderCountCache = 0; 
+
+    auth.onAuthStateChanged((user) => {
+        if (user) { currentUser = { email: user.email }; } else { currentUser = null; }
+        updateAuthUI();
+    });
+
+    db.ref('/').on('value', (snap) => {        
+        const data = snap.val() || {};        
+        isServerOnline = data.settings?.isOnline !== false;                
+        
+        document.getElementById('offline-msg').classList.toggle('hidden', isServerOnline);        
+        document.getElementById('main-content-area').classList.toggle('offline-mode', !isServerOnline);        
+        document.getElementById('status-text').innerText = isServerOnline ? "ONLINE" : "OFFLINE";        
+        document.getElementById('status-text').className = isServerOnline ? "font-bold text-green-400" : "font-bold text-red-500";        
+        document.getElementById('view-notice').innerText = data.settings?.notice || "EVO X GAMING";        
+        
+        if(data.settings?.bannerUrl) {
+            document.getElementById('promo-banner').style.backgroundImage = `url('${data.settings.bannerUrl}')`;
+        }
+        document.getElementById('banner-title').innerText = data.settings?.bannerTitle || "EVO X STORE";
+        document.getElementById('banner-subtitle').innerText = data.settings?.bannerSub || "১ সেকেন্ডে গেম টপ-আপ কিনবেন কীভাবে? প্লেয়ার আইডি দিয়ে অর্ডার করুন।";
+
+        // Dynamic Telegram & WhatsApp Link Set
+        if(data.settings?.tgUsername) {
+            document.getElementById('link-tg').href = `https://t.me/${data.settings.tgUsername}`;
+        }
+        if(data.settings?.waNumber) {
+            let waNum = data.settings.waNumber;
+            if(!waNum.startsWith('88')) waNum = '88' + waNum;
+            document.getElementById('link-wa').href = `https://wa.me/${waNum}`;
+        }
+
+        serverWalletData = {
+            bkash: data.settings?.bkash || "Not Set",
+            nagad: data.settings?.nagad || "Not Set",
+            rocket: data.settings?.rocket || "Not Set"
+        };
+        updateWalletNumberDisplay();
+        
+        const gameCardsContainer = document.getElementById('game-cards-container');
+        const admGameList = document.getElementById('adm-game-list');
+        const selectCategoryDropdown = document.getElementById('adm-icategory');
+        
+        gameCardsContainer.innerHTML = "";
+        admGameList.innerHTML = "";
+        selectCategoryDropdown.innerHTML = "";
+
+        const games = data.games || {};
+        Object.keys(games).forEach(gameId => {
+            const g = games[gameId];
+            
+            gameCardsContainer.innerHTML += `
+                <div onclick="openGameTopup('${g.name}', '${gameId}')" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:border-pipo hover:shadow-md transition active:scale-95 flex flex-col justify-between">
+                    <img src="${g.img}" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400'" class="w-full h-36 object-cover" alt="${g.name}">
+                    <div class="p-3 text-center">
+                        <h4 class="font-bold text-xs truncate">${g.name}</h4>
+                        <p class="text-[9px] text-green-600 font-bold mt-0.5">● Instant Active</p>
+                    </div>
+                </div>`;
+
+            admGameList.innerHTML += `
+                <div class="flex justify-between items-center text-xs p-1.5 border rounded bg-gray-50">
+                    <span class="truncate font-semibold max-w-[180px]">${g.name}</span>
+                    <button onclick="deleteGame('${gameId}')" class="text-red-500 hover:scale-105 px-1"><i class="fa-solid fa-trash"></i></button>
+                </div>`;
+
+            selectCategoryDropdown.innerHTML += `<option value="${gameId}">${g.name}</option>`;
+        });
+
+        gameCardsContainer.innerHTML += `
+            <div onclick="show('history')" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:border-blue-500 hover:shadow-md transition active:scale-95 flex flex-col justify-between">
+                <div class="w-full h-36 bg-blue-50 flex items-center justify-center text-blue-600 text-4xl">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <div class="p-3 text-center">
+                    <h4 class="font-bold text-xs truncate">My Orders</h4>
+                    <p class="text-[9px] text-gray-400 mt-0.5">Check History</p>
+                </div>
+            </div>`;
+
+        globalItemsData = data.items || {};
+        renderFilteredPackages(); 
+
+        const admItemCont = document.getElementById('adm-item-list');
+        admItemCont.innerHTML = "";        
+        Object.keys(globalItemsData).forEach(id => {            
+            const i = globalItemsData[id];            
+            const targetGameName = games[i.category]?.name || "Default Catalog";
+            admItemCont.innerHTML += `<div class="p-2 border rounded-lg flex justify-between items-center text-xs text-black bg-gray-50"><span>[${targetGameName}] ${i.name} (৳${i.price})</span><button onclick="deleteItem('${id}')" class="text-red-500"><i class="fa-solid fa-trash"></i></button></div>`;
+        });        
+
+        const orders = data.orders || {};        
+        const currentOrdersCount = Object.keys(orders).length;
+        if(orderCountCache !== 0 && currentOrdersCount > orderCountCache) {
+            document.getElementById('notif-sound').play().catch(e=>console.log("Audio deferred"));
+        }
+        orderCountCache = currentOrdersCount;
+
+        const admOrd = document.getElementById('adm-orders');        
+        admOrd.innerHTML = "";        
+        Object.keys(orders).reverse().forEach(id => {            
+            const o = orders[id];            
+            admOrd.innerHTML += `<div class="bg-white p-4 rounded-xl border flex justify-between items-center shadow-sm text-black"><div class="text-[10px]"><p class="font-black text-blue-600">${o.item} [${o.method || 'bKash'}]</p><p>PID: ${o.pid} | Trx: <span class="bg-yellow-100 font-bold px-1 select-all uppercase">${o.trx}</span></p><p class="text-gray-400">${o.userEmail} | ${o.time || ''}</p><p class="font-bold ${o.status==='Approved'?'text-green-600':o.status==='Rejected'?'text-red-500':'text-orange-500'}">${o.status}</p></div><div class="flex flex-col gap-1"><button onclick="updateStatus('${id}', 'Approved')" class="bg-green-600 text-white text-[9px] px-2 py-1 rounded font-bold">Approve</button><button onclick="updateStatus('${id}', 'Rejected')" class="bg-red-600 text-white text-[9px] px-2 py-1 rounded font-bold">Reject</button><button onclick="deleteOrder('${id}')" class="bg-gray-400 text-white text-[9px] px-2 py-1 rounded">Delete</button></div></div>`;        
+        });        
+
+        let totalPlaced = 0, totalSuccess = 0;
+        const hCont = document.getElementById('history-container');            
+        hCont.innerHTML = "";            
+        if(currentUser) {            
+            Object.keys(orders).reverse().forEach(id => {                
+                const o = orders[id];                
+                if(o.userEmail === currentUser.email) {                    
+                    totalPlaced++;
+                    if(o.status === 'Approved') totalSuccess++;
+                    hCont.innerHTML += `<div class="bg-white p-4 rounded-xl border shadow-sm text-black"><div class="flex justify-between font-bold text-sm"><span>${o.item}</span><span class="${o.status==='Approved'?'text-green-600':o.status==='Rejected'?'text-red-500':'text-orange-500'}">${o.status}</span></div><p class="text-[10px] text-gray-500 mt-1">PID: ${o.pid} | Method: ${o.method || 'bKash'} | TrxID: ${o.trx} | ${o.time || ''}</p></div>`;                    
+                }            
+            });        
+        }        
+        document.getElementById('count-total').innerText = totalPlaced;
+        document.getElementById('count-success').innerText = totalSuccess;
+        updateAuthUI();    
+    });    
+
+    function updateBannerConfig() {
+        const title = document.getElementById('adm-btitle').value.trim();
+        const sub = document.getElementById('adm-bsub').value.trim();
+        const url = document.getElementById('adm-burl').value.trim();
+        const tgUsername = document.getElementById('adm-tg').value.trim();
+        const waNumber = document.getElementById('adm-wa').value.trim();
+
+        // Object validation configuration structure dynamic mapping updates
+        let updateData = {};
+        if(title) updateData.bannerTitle = title;
+        if(sub) updateData.bannerSub = sub;
+        if(url) updateData.bannerUrl = url;
+        if(tgUsername) updateData.tgUsername = tgUsername;
+        if(waNumber) updateData.waNumber = waNumber;
+
+        if(Object.keys(updateData).length === 0) return alert("দয়া করে যেকোনো একটি বক্স পূরণ করুন!");
+
+        db.ref('settings').update(updateData).then(() => {
+            alert("Settings Config Updated Successfully!");
+            document.getElementById('adm-btitle').value = "";
+            document.getElementById('adm-bsub').value = "";
+            document.getElementById('adm-burl').value = "";
+            document.getElementById('adm-tg').value = "";
+            document.getElementById('adm-wa').value = "";
+        });
+    }
+
+    function validateTrxFormat(trxStr, gateway) {
+        const cleanTrx = trxStr.trim().toUpperCase();
+        if(cleanTrx.length < 8) return false;
+        if(gateway === "bKash" || gateway === "Nagad") {
+            const spamPattern = /^[A-Z0-9]{8,12}$/;
+            return spamPattern.test(cleanTrx);
+        }
+        return true;
+    }
+
+    function addGame() {
+        const name = document.getElementById('adm-gname').value.trim();
+        const img = document.getElementById('adm-gimg').value.trim();
+        if(!name || !img) return alert("গেমের নাম এবং ইমেজের সঠিক URL লিঙ্ক বসান!");
+        db.ref('games').push({ name, img }).then(() => {
+            alert("নতুন গেম কার্ড সফলভাবে যুক্ত হয়েছে!");
+            document.getElementById('adm-gname').value = "";
+            document.getElementById('adm-gimg').value = "";
+        });
+    }
+
+    function deleteGame(id) {
+        if(confirm("এই গেমটি ডিলিট করলে এর ভেতরের সব প্যাকেজও রিমুভ হয়ে যেতে পারে। আপনি কি নিশ্চিত?")) {
+            db.ref('games/'+id).remove().then(() => alert("Game Deleted!"));
+        }
+    }
+
+    function openGameTopup(gameTitle, categoryKey) {
+        if(!isServerOnline) return;
+        activeCategory = categoryKey;
+        selectedPkg = null; 
+        document.getElementById('topup-game-title').innerText = gameTitle;
+        renderFilteredPackages();
+        show('topup');
+    }
+
+    function renderFilteredPackages() {
+        const itemCont = document.getElementById('item-list');        
+        if (!itemCont) return;
+        itemCont.innerHTML = "";        
+        let hasItems = false;
+        Object.keys(globalItemsData).forEach(id => {            
+            const i = globalItemsData[id];            
+            if(i.category === activeCategory) {
+                hasItems = true;
+                itemCont.innerHTML += `<div onclick="selectPkgUI(this, '${i.name}', ${i.price})" class="border-2 bg-white rounded-xl p-3 text-center cursor-pointer hover:border-pipo transition text-black"><p class="text-[11px] font-bold">${i.name}</p><p class="text-pipo font-black text-sm">৳${i.price}</p></div>`;        
+            }
+        });
+        if(!hasItems) {
+            itemCont.innerHTML = `<p class="text-xs text-gray-400 italic col-span-2 text-center py-4">No packages active for this server.</p>`;
+        }
+    }
+
+    function selectMethod(method) {
+        selectedMethod = method;
+        document.getElementById('selected-method-name').innerText = method;
+        ['bkash', 'nagad', 'rocket'].forEach(m => document.getElementById('method-'+m).classList.remove('method-active'));
+        document.getElementById('method-'+method.toLowerCase()).classList.add('method-active');
+        updateWalletNumberDisplay();
+    }
+
+    function updateWalletNumberDisplay() {
+        const currentNum = serverWalletData[selectedMethod.toLowerCase()] || "Not Set";
+        const viewEl = document.getElementById('view-num');
+        if(viewEl) viewEl.innerText = currentNum;
+    }
+
+    async function loginWithGoogle() {        
+        const provider = new firebase.auth.GoogleAuthProvider();        
+        try { await auth.signInWithRedirect(provider); } catch (e) { alert("Google login failed!"); }    
+    }    
+
+    async function handleAuth() {        
+        const email = document.getElementById('auth-email').value;        
+        const pass = document.getElementById('auth-pass').value;        
+        if(!email.includes('@') || pass.length < 6) return alert("সঠিক ইমেল ও পাসওয়ার্ড দিন!");        
+        try {            
+            if(authMode === 'up') {                
+                const res = await auth.createUserWithEmailAndPassword(email, pass);                
+                await res.user.sendEmailVerification();                
+                alert("ভেরিফিকেশন ইমেল পাঠানো হয়েছে!");                
+                toggleAuthTab('in');            
+            } else {                
+                const res = await auth.signInWithEmailAndPassword(email, pass);                
+                if(res.user.emailVerified) {                    
+                    currentUser = { email: res.user.email };                    
+                    show('home');                
+                } else {                    
+                    alert("প্রথমে ইমেল ভেরিফাই করুন!");                    
+                    auth.signOut();                
+                }            
+            }        
+        } catch (e) { alert(e.message); }    
+    }    
+
+    function selectPkgUI(el, name, price) {        
+        if(!isServerOnline) return;        
+        document.querySelectorAll('#item-list div').forEach(d => d.classList.remove('card-active'));        
+        el.classList.add('card-active');        
+        selectedPkg = {name, price};    
+    }    
+
+    function placeOrder() {        
+        if(!isServerOnline) return;        
+        if(!currentUser) return show('login');        
+        const pid = document.getElementById('order-pid').value;        
+        const trx = document.getElementById('order-trx').value.trim();        
+        if(!pid || pid.trim().length < 4) return alert("দয়া করে একটি সঠিক Player ID দিন!");
+        if(!selectedPkg) return alert("দয়া করে যেকোনো একটি ডায়মন্ড প্যাকেজ সিলেক্ট করুন!");
+        if(!validateTrxFormat(trx, selectedMethod)) {
+            return alert("ভুল বা স্প্যাম ট্রানজেকশন আইডি ফরম্যাট! দয়া করে সঠিক TrxID দেখে লিখুন।");
+        }
+        const orderBtn = document.getElementById('order-btn');
+        orderBtn.disabled = true; orderBtn.innerText = "Processing...";
+
+        db.ref('orders').push({            
+            pid: pid.trim(), trx: trx.toUpperCase(), item: selectedPkg.name, price: selectedPkg.price,            
+            userEmail: currentUser.email, status: "Pending", method: selectedMethod,
+            time: new Date().toLocaleString('bn-BD')        
+        }).then(() => {            
+            alert("অর্ডার সফল হয়েছে!");            
+            document.getElementById('order-pid').value = "";            
+            document.getElementById('order-trx').value = "";            
+            orderBtn.disabled = false; orderBtn.innerText = "Confirm Order";
+            show('history');        
+        }).catch(()=>{
+            orderBtn.disabled = false; orderBtn.innerText = "Confirm Order";
+        });    
+    }    
+
+    function askAdmin() { 
+        if(prompt("Admin Key:") === "tawsif728027") { show('admin'); } else { alert("ভুল কী!"); }
+    }    
+    
+    function toggleServer(s) { db.ref('settings').update({ isOnline: s }); }    
+    
+    function saveSettings() {        
+        const notice = document.getElementById('adm-notice').value;        
+        const bkash = document.getElementById('adm-bkash').value;        
+        const nagad = document.getElementById('adm-nagad').value;        
+        const rocket = document.getElementById('adm-rocket').value;        
+        db.ref('settings').update({ notice, bkash, nagad, rocket }).then(() => alert("Settings Updated!"));    
+    }    
+    
+    function addItem() {        
+        const category = document.getElementById('adm-icategory').value;
+        const name = document.getElementById('adm-iname').value;        
+        const price = document.getElementById('adm-iprice').value;        
+        if(!category) return alert("প্রথমে গেম কার্ড তৈরি করুন, তারপর প্যাকেজ অ্যাড করুন!");
+        if(name && price) db.ref('items').push({ category, name, price }).then(() => {
+            alert("Added!");
+            document.getElementById('adm-iname').value = "";
+            document.getElementById('adm-iprice').value = "";
+        });    
+    }    
+    function deleteItem(id) { if(confirm("প্যাকেজটি ডিলিট করতে চান?")) db.ref('items/'+id).remove(); }
+    function deleteOrder(id) { if(confirm("অর্ডারটি ডিলিট করতে চান?")) db.ref('orders/'+id).remove(); }
+    function updateStatus(id, s) { db.ref('orders/'+id).update({ status: s }); }    
+
+    function show(id) {        
+        if(id === 'history' && !currentUser) { alert('অর্ডার হিস্ট্রি দেখতে প্রথমে লগইন করুন!'); id = 'login'; }
+        if(id === 'history' && currentUser) { document.getElementById('profile-email-title').innerText = currentUser.email; }
+        ['home', 'topup', 'login', 'admin', 'history'].forEach(s => document.getElementById('section-'+s).classList.add('hidden-section'));        
+        document.getElementById('section-'+id).classList.remove('hidden-section');    
+    }    
+
+    function toggleAuthTab(m) {        
+        authMode = m;        
+        document.getElementById('tab-login').className = m==='in' ? "flex-1 pb-2 font-bold border-b-2 border-pipo text-pipo":"flex-1 pb-2 font-bold text-gray-400";        
+        document.getElementById('tab-signup').className = m==='up' ? "flex-1 pb-2 font-bold border-b-2 border-pipo text-pipo":"flex-1 pb-2 font-bold text-gray-400";        
+        document.getElementById('auth-main-btn').innerText = m==='in' ? "Login" : "Sign Up";    
+    }    
+
+    function updateAuthUI() {        
+        if(currentUser) {            
+            document.getElementById('login-btn').classList.add('hidden');            
+            document.getElementById('logged-in-ui').classList.remove('hidden');            
+            document.getElementById('user-display').innerText = currentUser.email.split('@')[0];        
+        } else {            
+            document.getElementById('login-btn').classList.remove('hidden');            
+            document.getElementById('logged-in-ui').classList.add('hidden');        
+        }    
+    }    
+
+    function handleLogout() { auth.signOut().then(() => { location.reload(); }); }
+    selectMethod('bKash');
+</script>
+</body>
+</html>

@@ -43,8 +43,6 @@
 </head>
 <body class="bg-gray-50 font-sans text-gray-900 select-none">
 
-<audio id="notif-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-84.wav" preload="auto"></audio>
-
 <!-- Navbar -->
 <nav class="bg-white shadow-md sticky top-0 z-50 p-2 sm:p-3">
     <div class="container mx-auto flex justify-between items-center">
@@ -57,7 +55,6 @@
                 <button onclick="handleLogout()" class="text-[9px] sm:text-xs text-red-600 font-bold border border-red-200 px-1.5 py-0.5 rounded">Logout</button>
             </div>
             <button id="login-btn" onclick="show('login')" class="bg-pipo text-white px-3 sm:px-4 py-1 rounded-full text-[10px] sm:text-xs font-bold shadow-sm">Login</button>
-            <button onclick="askAdmin()" class="bg-gray-800 text-white p-1.5 rounded-full text-[9px] sm:text-xs"><i class="fa-solid fa-lock"></i></button>
         </div>
     </div>
 </nav>
@@ -159,70 +156,6 @@
         </div>
         <div id="history-container" class="space-y-2 pb-20"></div>
     </div>
-
-    <!-- Admin Panel -->
-    <div id="section-admin" class="hidden-section text-black">
-        <div class="flex justify-between items-center mb-4 bg-black text-white p-3 rounded-lg">
-            <h2 class="font-bold text-xs text-green-400 tracking-wider">ADMIN PANEL v2.0 Pro</h2>
-            <button onclick="show('home')" class="bg-red-600 px-2 py-0.5 rounded text-[10px] font-bold">Exit</button>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-            <div class="bg-white p-3 border rounded-xl shadow-sm">
-                <h3 class="font-bold border-b mb-2 text-xs text-pipo"><i class="fa-solid fa-sliders"></i> Base Config</h3>
-                <div class="flex gap-2 mb-2">
-                    <button onclick="toggleServer(true)" class="flex-1 bg-green-500 text-white py-1 rounded text-[9px] font-bold">ONLINE</button>
-                    <button onclick="toggleServer(false)" class="flex-1 bg-red-500 text-white py-1 rounded text-[9px] font-bold">OFFLINE</button>
-                </div>
-                <input type="text" id="adm-notice" placeholder="Marquee Notice" class="w-full border p-1.5 mb-1.5 rounded text-[11px]">
-                <div class="space-y-1 mb-2">
-                    <input type="text" id="adm-bkash" placeholder="bKash No." class="w-full border p-1.5 rounded text-[9px]">
-                    <input type="text" id="adm-nagad" placeholder="Nagad No." class="w-full border p-1.5 rounded text-[9px]">
-                    <input type="text" id="adm-rocket" placeholder="Rocket No." class="w-full border p-1.5 rounded text-[9px]">
-                </div>
-                <button onclick="saveSettings()" class="w-full bg-black text-white py-1.5 rounded text-[11px] font-bold">Update Core Settings</button>
-            </div>
-            
-            <div class="bg-white p-3 border rounded-xl shadow-sm">
-                <h3 class="font-bold border-b mb-2 text-xs text-blue-600"><i class="fa-solid fa-gamepad"></i> Game Cards</h3>
-                <input type="text" id="adm-gname" placeholder="Game Title" class="w-full border p-1.5 mb-1.5 rounded text-[11px]">
-                <input type="text" id="adm-gimg" placeholder="Banner Image Link" class="w-full border p-1.5 mb-2 rounded text-[11px]">
-                <button onclick="addGame()" class="w-full bg-blue-600 text-white py-1.5 rounded text-[11px] font-bold">Register Card</button>
-            </div>
-            
-            <div class="bg-white p-3 border rounded-xl shadow-sm flex flex-col justify-between">
-                <div>
-                    <h3 class="font-bold border-b mb-1.5 text-xs text-purple-600"><i class="fa-solid fa-images"></i> Promo Slider & Social Links</h3>
-                    <input type="text" id="adm-burl" placeholder="Slide Cover Photo Link" class="w-full border p-1.5 mb-1.5 rounded text-[11px]">
-                    <div class="grid grid-cols-2 gap-1.5 mb-1.5">
-                        <input type="text" id="adm-tg" placeholder="Telegram Username" class="border p-1.5 rounded text-[9px]">
-                        <input type="text" id="adm-wa" placeholder="WhatsApp Num" class="border p-1.5 rounded text-[9px]">
-                    </div>
-                </div>
-                <button onclick="updateBannerConfig()" class="w-full bg-purple-600 text-white py-1.5 rounded text-[11px] font-bold">Push Config Update</button>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-            <div class="bg-white p-3 border rounded-xl shadow-sm">
-                <h3 class="font-bold border-b mb-2 text-xs text-green-600"><i class="fa-solid fa-square-plus"></i> Add Diamonds Pack</h3>
-                <select id="adm-icategory" class="w-full border p-1.5 mb-1.5 rounded text-[11px] bg-gray-50 outline-none"></select>
-                <input type="text" id="adm-iname" placeholder="Diamond Content" class="w-full border p-1.5 mb-1.5 rounded text-[11px]">
-                <input type="number" id="adm-iprice" placeholder="Price Amount (৳)" class="w-full border p-1.5 mb-2 rounded text-[11px]">
-                <button onclick="addItem()" class="w-full bg-green-600 text-white py-1.5 rounded text-[11px] font-bold">Confirm Bundle</button>
-            </div>
-            <div class="bg-white p-3 border rounded-xl shadow-sm">
-                <h3 class="font-bold border-b mb-1.5 text-xs text-red-500">Active Game Category Lists</h3>
-                <div id="adm-game-list" class="space-y-1 max-h-32 overflow-y-auto"></div>
-            </div>
-        </div>
-        
-        <h3 class="font-bold mb-1.5 text-xs text-gray-700">Database Bundle List Packages</h3>
-        <div id="adm-item-list" class="grid grid-cols-2 gap-1.5 mb-4 bg-white p-3 border rounded-xl max-h-40 overflow-y-auto"></div>
-        
-        <h3 class="font-bold mb-2 text-xs text-gray-700">Customer Placement Incoming Queue</h3>
-        <div id="adm-orders" class="space-y-2 mb-20"></div>
-    </div>
 </div>
 
 <!-- Floating Social Buttons -->
@@ -232,7 +165,6 @@
 </div>
 
 <script>
-    // ফায়ারবেজ কনফিগারেশন ডাটা
     const firebaseConfig = {
         apiKey: "AIzaSyD2J363sc8-9e5fFh2tdQvqM4OLDkJJYLo",
         authDomain: "evo-x-gaming.firebaseapp.com",
@@ -245,7 +177,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const auth = firebase.auth();
-    
+
     let currentUser = null;
     let selectedPkg = null;
     let selectedMethod = "bKash";
@@ -254,64 +186,51 @@
     let serverWalletData = {};
     let activeCategory = "";
     let globalItemsData = {};
-    let orderCountCache = 0;
 
     // ১. ডাটাবেজ রিয়েলটাইম রিডার লিসেনার
     db.ref('/').on('value', (snap) => {
         const data = snap.val() || {};
         isServerOnline = data.settings?.isOnline !== false;
-        
+
         if(document.getElementById('offline-msg')) document.getElementById('offline-msg').classList.toggle('hidden', isServerOnline);
         if(document.getElementById('main-content-area')) document.getElementById('main-content-area').classList.toggle('offline-mode', !isServerOnline);
-        
+
         if(document.getElementById('status-text')) {
             document.getElementById('status-text').innerText = isServerOnline ? "ONLINE" : "OFFLINE";
             document.getElementById('status-text').className = isServerOnline ? "font-bold text-xs text-green-400" : "font-bold text-xs text-red-500";
         }
-        
+
         if(document.getElementById('view-notice')) document.getElementById('view-notice').innerText = data.settings?.notice || "EVO X GAMING";
-        
+
         if(data.settings?.bannerUrl && document.getElementById('promo-banner')) {
             document.getElementById('promo-banner').style.backgroundImage = `url('${data.settings.bannerUrl}')`;
         }
-        
-        // টেলিগ্রাম ওপেনিং ফিল্টার ফিক্স (বাগ ফিক্সড)
+
+        // সোশ্যাল লিংক ফিল্টার
         if(data.settings?.tgUsername && document.getElementById('link-tg')) {
             let tgUser = data.settings.tgUsername.trim();
-            if(tgUser.includes('t.me/')) {
-                tgUser = tgUser.split('t.me/')[1];
-            }
-            if(tgUser.startsWith('@')) {
-                tgUser = tgUser.substring(1);
-            }
+            if(tgUser.includes('t.me/')) tgUser = tgUser.split('t.me/')[1];
+            if(tgUser.startsWith('@')) tgUser = tgUser.substring(1);
             document.getElementById('link-tg').href = `https://t.me/${tgUser}`;
         }
-
         if(data.settings?.waNumber && document.getElementById('link-wa')) {
             let waNum = data.settings.waNumber.trim();
-            if(waNum.includes('wa.me/')) {
-                waNum = waNum.split('wa.me/')[1];
-            }
+            if(waNum.includes('wa.me/')) waNum = waNum.split('wa.me/')[1];
             if(!waNum.startsWith('88')) waNum = '88' + waNum;
             document.getElementById('link-wa').href = `https://wa.me/${waNum}`;
         }
-        
+
         serverWalletData = {
             bkash: data.settings?.bkash || "Not Set",
             nagad: data.settings?.nagad || "Not Set",
             rocket: data.settings?.rocket || "Not Set"
         };
         updateWalletNumberDisplay();
-        
-        // গেম কার্ড লোডার রেন্ডারিং 
+
+        // গেম কার্ড লোডার রেন্ডারিং
         const gameCardsContainer = document.getElementById('game-cards-container');
-        const admGameList = document.getElementById('adm-game-list');
-        const selectCategoryDropdown = document.getElementById('adm-icategory');
-        
         if(gameCardsContainer) gameCardsContainer.innerHTML = "";
-        if(admGameList) admGameList.innerHTML = "";
-        if(selectCategoryDropdown) selectCategoryDropdown.innerHTML = "";
-        
+
         const games = data.games || {};
         Object.keys(games).forEach(gameId => {
             const g = games[gameId];
@@ -325,18 +244,8 @@
                         </div>
                     </div>`;
             }
-            if(admGameList) {
-                admGameList.innerHTML += `
-                    <div class="flex justify-between items-center text-xs p-1.5 border rounded bg-gray-50">
-                        <span class="truncate font-semibold max-w-[180px]">${g.name}</span>
-                        <button onclick="deleteGame('${gameId}')" class="text-red-500 hover:scale-105 px-1"><i class="fa-solid fa-trash"></i></button>
-                    </div>`;
-            }
-            if(selectCategoryDropdown) {
-                selectCategoryDropdown.innerHTML += `<option value="${gameId}">${g.name}</option>`;
-            }
         });
-        
+
         if(gameCardsContainer) {
             gameCardsContainer.innerHTML += `
                 <div onclick="show('history')" class="bg-white rounded-xl shadow-sm border border-gray-100 cursor-pointer hover:border-blue-500 hover:shadow-md transition active:scale-95 game-card-fix">
@@ -349,40 +258,12 @@
                     </div>
                 </div>`;
         }
-        
+
         globalItemsData = data.items || {};
         renderFilteredPackages();
-        
-        const admItemCont = document.getElementById('adm-item-list');
-        if(admItemCont) {
-            admItemCont.innerHTML = "";
-            Object.keys(globalItemsData).forEach(id => {
-                const i = globalItemsData[id];
-                const targetGameName = games[i.category]?.name || "Default Catalog";
-                admItemCont.innerHTML += `<div class="p-2 border rounded-lg flex justify-between items-center text-xs text-black bg-gray-50"><span>[${targetGameName}] ${i.name} (৳${i.price})</span><button onclick="deleteItem('${id}')" class="text-red-500"><i class="fa-solid fa-trash"></i></button></div>`;
-            });
-        }
-        
+
+        // ইউজার হিস্ট্রি লোড
         const orders = data.orders || {};
-        const currentOrdersCount = Object.keys(orders).length;
-        if(orderCountCache !== 0 && currentOrdersCount > orderCountCache) {
-            if(document.getElementById('notif-sound')) {
-                let sound = document.getElementById('notif-sound');
-                sound.currentTime = 0;
-                sound.play().catch(e=>console.log("Audio playing failed"));
-            }
-        }
-        orderCountCache = currentOrdersCount;
-        
-        const admOrd = document.getElementById('adm-orders');
-        if(admOrd) {
-            admOrd.innerHTML = "";
-            Object.keys(orders).reverse().forEach(id => {
-                const o = orders[id];
-                admOrd.innerHTML += `<div class="bg-white p-4 rounded-xl border flex justify-between items-center shadow-sm text-black"><div class="text-[10px]"><p class="font-black text-blue-600">${o.item} [${o.method || 'bKash'}]</p><p>PID: ${o.pid} | Trx: <span class="bg-yellow-100 font-bold px-1 select-all uppercase">${o.trx}</span></p><p class="text-gray-400">${o.userEmail} | ${o.time || ''}</p><p class="font-bold ${o.status==='Approved'?'text-green-600':o.status==='Rejected'?'text-red-500':'text-orange-500'}">${o.status}</p></div><div class="flex flex-col gap-1"><button onclick="updateStatus('${id}', 'Approved')" class="bg-green-600 text-white text-[9px] px-2 py-1 rounded font-bold">Approve</button><button onclick="updateStatus('${id}', 'Rejected')" class="bg-red-600 text-white text-[9px] px-2 py-1 rounded font-bold">Reject</button><button onclick="deleteOrder('${id}')" class="bg-gray-400 text-white text-[9px] px-2 py-1 rounded">Delete</button></div></div>`;
-            });
-        }
-        
         let totalPlaced = 0, totalSuccess = 0;
         const hCont = document.getElementById('history-container');
         if(hCont) {
@@ -393,12 +274,19 @@
                     if(o.userEmail === currentUser.email) {
                         totalPlaced++;
                         if(o.status === 'Approved') totalSuccess++;
-                        hCont.innerHTML += `<div class="bg-white p-3 rounded-xl border shadow-sm text-black"><div class="flex justify-between font-bold text-xs"><span>${o.item}</span><span class="${o.status==='Approved'?'text-green-600':o.status==='Rejected'?'text-red-500':'text-orange-500'}">${o.status}</span></div><p class="text-[9px] text-gray-500 mt-1">PID: ${o.pid} | Method: ${o.method || 'bKash'} | TrxID: ${o.trx} | ${o.time || ''}</p></div>`;
+                        hCont.innerHTML += `
+                            <div class="bg-white p-3 rounded-xl border shadow-sm text-black">
+                                <div class="flex justify-between font-bold text-xs">
+                                    <span>${o.item}</span>
+                                    <span class="${o.status==='Approved'?'text-green-600':o.status==='Rejected'?'text-red-500':'text-orange-500'}">${o.status}</span>
+                                </div>
+                                <p class="text-[9px] text-gray-500 mt-1">PID: ${o.pid} | Method: ${o.method || 'bKash'} | TrxID: ${o.trx} | ${o.time || ''}</p>
+                            </div>`;
                     }
                 });
             }
         }
-        
+
         if(document.getElementById('count-total')) document.getElementById('count-total').innerText = totalPlaced;
         if(document.getElementById('count-success')) document.getElementById('count-success').innerText = totalSuccess;
     });
@@ -418,7 +306,6 @@
         show(savedSection);
     });
 
-    // মোবাইল গুগল লগইন হ্যান্ডেল রিডাইরেক্ট রিসিভার
     auth.getRedirectResult().then((result) => {
         if (result.user) {
             alert("গুগল লগইন সফল!");
@@ -442,10 +329,8 @@
 
     // ৩. সেকশন রাউটার
     function show(sectionId) {
-        if(sectionId !== 'admin') {
-            sessionStorage.setItem('active_sec', sectionId);
-        }
-        const sections = ['home', 'topup', 'login', 'history', 'admin'];
+        sessionStorage.setItem('active_sec', sectionId);
+        const sections = ['home', 'topup', 'login', 'history'];
         sections.forEach(sec => {
             const el = document.getElementById('section-' + sec);
             if (el) {
@@ -458,25 +343,14 @@
         });
     }
 
-    // ৪. অ্যাডমিন প্যানেল প্রম্পট
-    function askAdmin() {
-        const mask = prompt("Enter Admin Secret Password:");
-        if (!mask) return;
-        if (mask === "tawsif728027") {
-            show('admin');
-        } else {
-            alert("Wrong Password! Access Denied.");
-        }
-    }
-
-    // ৫. অথেনটিকেশন ফাংশনস
+    // ৪. অথেনটিকেশন ফাংশনস
     function toggleAuthTab(mode) {
         authMode = mode;
         const tabLogin = document.getElementById('tab-login');
         const tabSignup = document.getElementById('tab-signup');
         const mainBtn = document.getElementById('auth-main-btn');
         const title = document.getElementById('auth-title');
-        
+
         if(mode === 'in') {
             tabLogin.className = "flex-1 pb-1.5 font-bold border-b-2 border-pipo text-pipo";
             tabSignup.className = "flex-1 pb-1.5 font-bold text-gray-400";
@@ -493,10 +367,10 @@
     function handleAuth() {
         const email = document.getElementById('auth-email').value.trim();
         const pass = document.getElementById('auth-pass').value;
-        
+
         if(!email || !pass) return alert("দয়া করে ইমেইল এবং পাসওয়ার্ড দুটোই লিখুন!");
         if(pass.length < 6) return alert("পাসওয়ার্ড কমপক্ষে ৬ ডিজিটের হতে হবে!");
-        
+
         if(authMode === 'in') {
             auth.signInWithEmailAndPassword(email, pass)
                 .then(() => { alert("লগইন সফল হয়েছে!"); show('home'); })
@@ -511,7 +385,7 @@
     function loginWithGoogle() {
         const provider = new firebase.auth.GoogleAuthProvider();
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        
+
         if (isMobile) {
             auth.signInWithRedirect(provider).catch(e => alert("গুগল লগইন ব্যর্থ: " + e.message));
         } else {
@@ -529,14 +403,14 @@
         }).catch(e => alert(e.message));
     }
 
-    // ৬. পেমেন্ট ও ওয়ালেট মেথড
+    // ৫. পেমেন্ট ও ওয়ালেট
     function selectMethod(method) {
         selectedMethod = method;
         if(document.getElementById('selected-method-name')) {
             document.getElementById('selected-method-name').innerText = method;
         }
         updateWalletNumberDisplay();
-        
+
         ['bKash', 'Nagad', 'Rocket'].forEach(m => {
             const el = document.getElementById('method-' + m.toLowerCase());
             if (el) {
@@ -558,7 +432,7 @@
     function openGameTopup(gameTitle, categoryKey) {
         if(!isServerOnline) return;
         activeCategory = categoryKey;
-        selectedPkg = null; 
+        selectedPkg = null;
         if(document.getElementById('topup-game-title')) document.getElementById('topup-game-title').innerText = gameTitle;
         renderFilteredPackages();
         show('topup');
@@ -569,163 +443,64 @@
         if (!itemCont) return;
         itemCont.innerHTML = "";
         let hasItems = false;
+
         Object.keys(globalItemsData).forEach(id => {
             const i = globalItemsData[id];
             if(i.category === activeCategory) {
                 hasItems = true;
-                itemCont.innerHTML += `<div onclick="selectPkgUI(this, '${i.name}', ${i.price})" class="border border-gray-200 bg-white rounded-lg p-2 text-center cursor-pointer hover:border-pipo transition text-black"><p class="text-[10px] font-bold">${i.name}</p><p class="text-pipo font-black text-xs">৳${i.price}</p></div>`;
+                itemCont.innerHTML += `
+                    <div onclick="selectPackage('${id}', '${i.name}', ${i.price}, this)" class="border p-2.5 rounded-xl text-center cursor-pointer hover:border-pipo transition bg-white shadow-sm item-pkg-card">
+                        <p class="font-bold text-xs text-gray-800">${i.name}</p>
+                        <p class="text-[11px] text-pipo font-black mt-0.5">৳${i.price}</p>
+                    </div>`;
             }
         });
+
         if(!hasItems) {
-            itemCont.innerHTML = `<p class="text-[10px] text-gray-400 italic col-span-2 text-center py-3">No packages active for this server.</p>`;
+            itemCont.innerHTML = `<p class="col-span-2 text-center text-xs text-gray-400 py-4">কোন প্যাকেজ পাওয়া যায়নি!</p>`;
         }
     }
 
-    function selectPkgUI(element, pkgName, price) {
-        selectedPkg = { name: pkgName, price: price };
-        document.querySelectorAll('#item-list > div').forEach(el => el.classList.remove('card-active'));
-        element.classList.add('card-active');
+    function selectPackage(id, name, price, el) {
+        selectedPkg = { id, name, price };
+        document.querySelectorAll('.item-pkg-card').forEach(card => card.classList.remove('card-active'));
+        if(el) el.classList.add('card-active');
     }
 
-    // ট্রানজেকশন আইডি ভ্যালিডেশন
-    function validateTrxFormat(trxStr, gateway) {
-        const cleanTrx = trxStr.trim().toUpperCase();
-        if(cleanTrx.length < 8) return false;
-        const spamPattern = /^[A-Z0-9]{8,12}$/;
-        return spamPattern.test(cleanTrx);
-    }
-
-    // ৭. ইউজার অর্ডার প্লেসমেন্ট ফাংশন
+    // ৬. অর্ডার প্লেসমেন্ট
     function placeOrder() {
-        if(!currentUser) return alert("অর্ডার করতে প্রথমে লগইন করুন!");
-        if(!isServerOnline) return alert("সার্ভার অফলাইন আছে!");
-        
+        if(!isServerOnline) return alert("সার্ভার এখন অফলাইন আছে!");
+        if(!currentUser) {
+            alert("অর্ডার করতে প্রথমে লগইন করুন!");
+            show('login');
+            return;
+        }
+
         const pid = document.getElementById('order-pid').value.trim();
-        const trx = document.getElementById('order-trx').value.trim().toUpperCase();
-        
-        if(!pid) return alert("দয়া করে প্লেয়ার আইডি (UID) দিন!");
-        if(!selectedPkg) return alert("দয়া করে একটি ডায়মন্ড প্যাকেজ সিলেক্ট করুন!");
-        if(!trx) return alert("দয়া করে পেমেন্টের ট্রানজেকশন আইডি (TrxID) দিন!");
-        
-        if(!validateTrxFormat(trx, selectedMethod)) {
-            return alert("ভুল ট্রানজেকশন আইডি ফরম্যাট! সঠিক আইডি সাবমিট করুন।");
-        }
-        
+        const trx = document.getElementById('order-trx').value.trim();
+
+        if(!pid) return alert("দয়া করে Player ID (UID) দিন!");
+        if(!selectedPkg) return alert("দয়া করে একটি Diamond Pack সিলেক্ট করুন!");
+        if(!trx) return alert("দয়া করে Transaction ID (TrxID) দিন!");
+
         const orderData = {
-            item: selectedPkg.name + ` (৳${selectedPkg.price})`,
-            pid: pid,
-            trx: trx,
-            method: selectedMethod,
             userEmail: currentUser.email,
-            status: "Pending",
-            time: new Date().toLocaleString('en-US', { timeZone: 'Asia/Dhaka' })
+            pid: pid,
+            item: selectedPkg.name,
+            price: selectedPkg.price,
+            method: selectedMethod,
+            trx: trx,
+            status: 'Pending',
+            time: new Date().toLocaleString('bn-BD')
         };
-        
-        db.ref('orders').push(orderData)
-            .then(() => {
-                alert("আপনার অর্ডারটি সফলভাবে সাবমিট হয়েছে!");
-                document.getElementById('order-pid').value = "";
-                document.getElementById('order-trx').value = "";
-                show('history');
-            })
-            .catch(e => alert("অর্ডার দিতে সমস্যা হয়েছে: " + e.message));
-    }
 
-    // ৮. অ্যাডমিন প্যানেল কন্ট্রোল বাটন কোডসমূহ
-    function toggleServer(status) {
-        db.ref('settings/isOnline').set(status)
-            .then(() => alert(`সার্ভার স্ট্যাটাস ${status ? 'ONLINE' : 'OFFLINE'} করা হয়েছে`));
-    }
-
-    function saveSettings() {
-        const notice = document.getElementById('adm-notice').value.trim();
-        const bkash = document.getElementById('adm-bkash').value.trim();
-        const nagad = document.getElementById('adm-nagad').value.trim();
-        const rocket = document.getElementById('adm-rocket').value.trim();
-        
-        const updates = {};
-        if(notice) updates['settings/notice'] = notice;
-        if(bkash) updates['settings/bkash'] = bkash;
-        if(nagad) updates['settings/nagad'] = nagad;
-        if(rocket) updates['settings/rocket'] = rocket;
-        
-        if(Object.keys(updates).length === 0) return alert("কমপক্ষে একটি ফিল্ড পূরণ করুন!");
-        
-        db.ref().update(updates)
-            .then(() => {
-                alert("মূল সেটিংস আপডেট করা হয়েছে!");
-                document.getElementById('adm-notice').value = "";
-            });
-    }
-
-    function addGame() {
-        const name = document.getElementById('adm-gname').value.trim();
-        const img = document.getElementById('adm-gimg').value.trim();
-        
-        if(!name || !img) return alert("গেমের নাম এবং ইমেজের লিংক দুটোই দিন!");
-        
-        db.ref('games').push({ name: name, img: img })
-            .then(() => {
-                alert("নতুন গেম রেজিস্টার করা হয়েছে!");
-                document.getElementById('adm-gname').value = "";
-                document.getElementById('adm-gimg').value = "";
-            });
-    }
-
-    function deleteGame(id) {
-        if(confirm("আপনি কি নিশ্চিতভাবে এই গেমটি ডিলিট করতে চান?")) {
-            db.ref(`games/${id}`).remove().then(() => alert("গেম ক্যাটাগরি ডিলিট হয়েছে!"));
-        }
-    }
-
-    function updateBannerConfig() {
-        const url = document.getElementById('adm-burl').value.trim();
-        const tg = document.getElementById('adm-tg').value.trim();
-        const wa = document.getElementById('adm-wa').value.trim();
-        
-        const updates = {};
-        if(url) updates['settings/bannerUrl'] = url;
-        if(tg) updates['settings/tgUsername'] = tg;
-        if(wa) updates['settings/waNumber'] = wa;
-        
-        db.ref().update(updates).then(() => {
-            alert("ব্যানার এবং সোশ্যাল লিংক আপডেট হয়েছে!");
-            document.getElementById('adm-burl').value = "";
-            document.getElementById('adm-tg').value = "";
-            document.getElementById('adm-wa').value = "";
-        });
-    }
-
-    function addItem() {
-        const cat = document.getElementById('adm-icategory').value;
-        const name = document.getElementById('adm-iname').value.trim();
-        const price = parseInt(document.getElementById('adm-iprice').value);
-        
-        if(!cat || !name || !price) return alert("সব তথ্য সঠিকভাবে পূরণ করুন!");
-        
-        db.ref('items').push({ category: cat, name: name, price: price })
-            .then(() => {
-                alert("ডায়মন্ড বান্ডেল তৈরি সফল হয়েছে!");
-                document.getElementById('adm-iname').value = "";
-                document.getElementById('adm-iprice').value = "";
-            });
-    }
-
-    function deleteItem(id) {
-        if(confirm("প্যাকেজটি ডাটাবেজ থেকে মুছে ফেলতে চান?")) {
-            db.ref(`items/${id}`).remove().then(() => alert("প্যাকেজ ডিলিট হয়েছে!"));
-        }
-    }
-
-    function updateStatus(id, status) {
-        db.ref(`orders/${id}/status`).set(status)
-            .then(() => alert(`অর্ডার স্ট্যাটাস ${status} করা হয়েছে`));
-    }
-
-    function deleteOrder(id) {
-        if(confirm("অর্ডার রেকর্ডটি কি সম্পূর্ণ ডিলিট করবেন?")) {
-            db.ref(`orders/${id}`).remove().then(() => alert("অর্ডার রেকর্ড সফলভাবে ডিলিট হয়েছে"));
-        }
+        db.ref('orders').push(orderData).then(() => {
+            alert("আপনার অর্ডারটি সফলভাবে জমা হয়েছে!");
+            document.getElementById('order-pid').value = "";
+            document.getElementById('order-trx').value = "";
+            selectedPkg = null;
+            show('history');
+        }).catch(e => alert("অর্ডার ব্যর্থ হয়েছে: " + e.message));
     }
 </script>
 </body>

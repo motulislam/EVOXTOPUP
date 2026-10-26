@@ -2,6 +2,9 @@
 <html lang="en-BD">
 <head>
     <meta charset="utf-8">
+    <!-- This site is hosted on Netlify. Anyone can build and deploy a site 
+         like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=9ab821b6-e553-4662-a2a5-74692271cafe 
+         Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EVO X GAMING - Games TopUp in Bangladesh</title>
     <meta name="theme-color" content="#0f52bd">
@@ -92,7 +95,8 @@
 <!-- Top Navbar -->
 <nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-200">
     <div class="container mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex justify-between items-center max-w-6xl">
-        <h1 class="text-sm sm:text-2xl font-black cursor-pointer flex items-center gap-1.5" onclick="show('home')">
+        <h1 class="text-sm sm:text-2xl font-black cursor-pointer flex items-center gap-2" onclick="show('home')">
+            <img src="https://i.ibb.co/3mYmcyz8/logo.jpg" alt="EVO X GAMING" class="h-8 sm:h-10 w-auto object-contain">
             <span class="text-pipo">EVO X</span> <span class="text-gray-800">GAMING</span>
         </h1>
         <div class="flex items-center gap-1.5 sm:gap-4">
@@ -103,6 +107,7 @@
             <button onclick="openAddMoneyModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 shadow-sm transition cursor-pointer">
                 <i class="fa-solid fa-wallet"></i> <span id="nav-balance-text">৳0</span>
             </button>
+
             <!-- User Login UI -->
             <div id="logged-in-ui" class="hidden flex items-center gap-1.5 sm:gap-2">
                 <div onclick="show('history')" class="cursor-pointer flex items-center gap-1 bg-blue-50 border border-blue-200 px-2 py-1 rounded-full">
@@ -117,7 +122,6 @@
 </nav>
 
 <div class="container mx-auto px-2.5 sm:px-4 py-3 sm:py-4 max-w-5xl flex-grow">
-    
     <div id="offline-msg" class="hidden bg-red-600 text-white p-3 rounded-xl mb-4 text-center font-bold text-xs shadow">
         সার্ভার এখন অফলাইন।
     </div>
@@ -149,8 +153,8 @@
         <button onclick="show('home')" class="mb-4 text-pipo font-bold flex items-center gap-1.5 text-xs bg-white px-3.5 py-2 rounded-xl border border-gray-200 shadow-sm w-fit">
             <i class="fa-solid fa-arrow-left"></i> Back to Home
         </button>
+
         <div id="main-content-area" class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
-            
             <div class="md:col-span-2 space-y-4">
                 <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center justify-between">
                     <div>
@@ -223,10 +227,9 @@
                 </div>
                 <div class="bg-blue-50 border border-blue-100 p-4 rounded-2xl text-xs text-blue-900 space-y-2">
                     <h4 class="font-bold flex items-center gap-1.5 text-pipo"><i class="fa-solid fa-circle-exclamation"></i> নিয়মাবলী:</h4>
-                    <p class="text-[11px] text-gray-700 leading-relaxed">১. সঠিক Player ID দিন。<br>২. ওয়ালেট থেকে সরাসরি পেমেন্ট করুন।</p>
+                    <p class="text-[11px] text-gray-700 leading-relaxed">১. সঠিক Player ID দিন।<br>২. ওয়ালেট থেকে সরাসরি পেমেন্ট করুন।</p>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -269,10 +272,12 @@
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="16" alt="Google">
             Continue with Google
         </button>
+
         <div class="flex border-b border-gray-200 mb-4 text-xs">
             <button onclick="toggleAuthTab('in')" id="tab-login" class="flex-1 pb-2 font-bold border-b-2 border-pipo text-pipo">Login</button>
             <button onclick="toggleAuthTab('up')" id="tab-signup" class="flex-1 pb-2 font-bold text-gray-400">Sign Up</button>
         </div>
+
         <div class="space-y-3 text-xs">
             <input type="email" id="auth-email" placeholder="Email" class="w-full border p-2.5 rounded-lg outline-none">
             <input type="password" id="auth-pass" placeholder="Password" class="w-full border p-2.5 rounded-lg outline-none">
@@ -296,13 +301,14 @@
                 <div class="border-l border-white/20 pl-3 sm:pl-6"><p class="opacity-70">Approved</p><p id="count-success" class="text-sm sm:text-lg font-black text-green-300">0</p></div>
             </div>
         </div>
+
         <div class="flex justify-between items-center mb-3">
             <h2 class="text-xs sm:text-sm font-bold text-gray-800">My Orders & Add Money History</h2>
             <button onclick="show('home')" class="text-pipo font-bold text-xs">Back</button>
         </div>
+
         <div id="history-container" class="space-y-2 pb-20"></div>
     </div>
-
 </div>
 
 <!-- Floating Social -->
@@ -322,6 +328,7 @@
         appId: "1:501674992039:web:5a7bc97449dfd0c22b1682"
     };
     firebase.initializeApp(firebaseConfig);
+
     const db = firebase.database();
     const auth = firebase.auth();
 
@@ -335,7 +342,6 @@
     let activeCategory = "";
     let globalItemsData = {};
     let currentUserBalance = 0;
-
     let bannerList = [];
     let currentBannerIndex = 0;
     let bannerInterval = null;
@@ -343,13 +349,19 @@
     db.ref('/').on('value', (snap) => {
         const data = snap.val() || {};
         isServerOnline = data.settings?.isOnline !== false;
-        if(document.getElementById('offline-msg')) document.getElementById('offline-msg').classList.toggle('hidden', isServerOnline);
+
+        if(document.getElementById('offline-msg')) {
+            document.getElementById('offline-msg').classList.toggle('hidden', isServerOnline);
+        }
 
         if(document.getElementById('status-text')) {
             document.getElementById('status-text').innerText = isServerOnline ? "ONLINE" : "OFFLINE";
             document.getElementById('status-text').className = isServerOnline ? "font-black text-xs text-green-400" : "font-black text-xs text-red-500";
         }
-        if(document.getElementById('view-notice')) document.getElementById('view-notice').innerText = data.settings?.notice || "EVO X GAMING";
+
+        if(document.getElementById('view-notice')) {
+            document.getElementById('view-notice').innerText = data.settings?.notice || "EVO X GAMING";
+        }
 
         if(data.settings?.bannerUrl) {
             bannerList = data.settings.bannerUrl.includes(',') ? data.settings.bannerUrl.split(',').map(s => s.trim()) : [data.settings.bannerUrl.trim()];
@@ -361,11 +373,13 @@
             nagad: data.settings?.nagad || "Not Set",
             rocket: data.settings?.rocket || "Not Set"
         };
+
         updateWalletNumberDisplay();
         updateAddWalletNumberDisplay();
 
         const gameCardsContainer = document.getElementById('game-cards-container');
         if(gameCardsContainer) gameCardsContainer.innerHTML = "";
+        
         const games = data.games || {};
         Object.keys(games).forEach(gameId => {
             const g = games[gameId];
@@ -400,6 +414,7 @@
         const usersData = data.users || {};
         const orders = data.orders || {};
         const addMoneyReqs = data.addMoneyRequests || {};
+
         currentUserBalance = 0;
         if(currentUser && usersData[currentUser.uid]) {
             currentUserBalance = usersData[currentUser.uid].balance || 0;
@@ -429,6 +444,7 @@
                             </div>`;
                     }
                 });
+
                 Object.keys(orders).reverse().forEach(id => {
                     const o = orders[id];
                     if(o.userEmail === currentUser.email) {
@@ -446,6 +462,7 @@
                 });
             }
         }
+
         if(document.getElementById('count-total')) document.getElementById('count-total').innerText = totalPlaced;
         if(document.getElementById('count-success')) document.getElementById('count-success').innerText = totalSuccess;
     });
@@ -454,6 +471,7 @@
         if(bannerList.length === 0) return;
         const bannerEl = document.getElementById('promo-banner');
         const dotsEl = document.getElementById('slider-dots');
+
         bannerEl.style.backgroundImage = `url('${bannerList[currentBannerIndex]}')`;
         if(dotsEl) {
             dotsEl.innerHTML = '';
@@ -461,6 +479,7 @@
                 dotsEl.innerHTML += `<span class="w-2 h-2 rounded-full ${idx === currentBannerIndex ? 'bg-white' : 'bg-white/50'} inline-block"></span>`;
             });
         }
+
         if(bannerInterval) clearInterval(bannerInterval);
         if(bannerList.length > 1) {
             bannerInterval = setInterval(() => {
@@ -489,6 +508,7 @@
         const loggedInUi = document.getElementById('logged-in-ui');
         const loginBtn = document.getElementById('login-btn');
         const userDisplay = document.getElementById('user-display');
+
         if (currentUser) {
             if(loggedInUi) loggedInUi.classList.remove('hidden');
             if(loginBtn) loginBtn.classList.add('hidden');
@@ -516,6 +536,7 @@
         const tabSignup = document.getElementById('tab-signup');
         const mainBtn = document.getElementById('auth-main-btn');
         const title = document.getElementById('auth-title');
+
         if(mode === 'in') {
             tabLogin.className = "flex-1 pb-2 font-bold border-b-2 border-pipo text-pipo";
             tabSignup.className = "flex-1 pb-2 font-bold text-gray-400";
@@ -532,30 +553,44 @@
     function handleAuth() {
         const email = document.getElementById('auth-email').value.trim();
         const pass = document.getElementById('auth-pass').value;
+
         if(!email || !pass) return alert("দয়া করে ইমেইল এবং পাসওয়ার্ড দিন!");
+
         if(authMode === 'in') {
-            auth.signInWithEmailAndPassword(email, pass).then(() => { alert("লগইন সফল!"); show('home'); }).catch(e => alert(e.message));
+            auth.signInWithEmailAndPassword(email, pass)
+                .then(() => { alert("লগইন সফল!"); show('home'); })
+                .catch(e => alert(e.message));
         } else {
-            auth.createUserWithEmailAndPassword(email, pass).then(() => { alert("অ্যাকাউন্ট তৈরি সফল!"); show('home'); }).catch(e => alert(e.message));
+            auth.createUserWithEmailAndPassword(email, pass)
+                .then(() => { alert("অ্যাকাউন্ট তৈরি সফল!"); show('home'); })
+                .catch(e => alert(e.message));
         }
     }
 
     function loginWithGoogle() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithPopup(provider).then(() => { alert("লগইন সফল!"); show('home'); }).catch(e => alert(e.message));
+        auth.signInWithPopup(provider)
+            .then(() => { alert("লগইন সফল!"); show('home'); })
+            .catch(e => alert(e.message));
     }
 
     function handleLogout() {
-        auth.signOut().then(() => { currentUser = null; sessionStorage.clear(); window.location.reload(); });
+        auth.signOut().then(() => { 
+            currentUser = null; 
+            sessionStorage.clear(); 
+            window.location.reload(); 
+        });
     }
 
     function selectMethod(method) {
         selectedMethod = method;
         if(document.getElementById('selected-method-name')) document.getElementById('selected-method-name').innerText = method;
+        
         updateWalletNumberDisplay();
 
         const walletBox = document.getElementById('wallet-payment-box');
         const manualBox = document.getElementById('manual-payment-box');
+
         if(method === 'Wallet') {
             walletBox.classList.remove('hidden');
             manualBox.classList.add('hidden');
@@ -563,6 +598,7 @@
             walletBox.classList.add('hidden');
             manualBox.classList.remove('hidden');
         }
+
         ['Wallet', 'bKash', 'Nagad', 'Rocket'].forEach(m => {
             const el = document.getElementById('method-' + m.toLowerCase());
             if (el) {
@@ -586,8 +622,8 @@
         updateAddWalletNumberDisplay();
         ['bKash', 'Nagad', 'Rocket'].forEach(m => {
             const el = document.getElementById('add-method-' + m.toLowerCase());
-            if (el) {
-                if (m === method) el.classList.add('method-active');
+            if(el) {
+                if(m === method) el.classList.add('method-active');
                 else el.classList.remove('method-active');
             }
         });
@@ -610,8 +646,10 @@
 
     function submitAddMoney() {
         if(!currentUser) { alert("প্রথমে লগইন করুন!"); show('login'); return; }
+        
         const amount = document.getElementById('add-amount').value.trim();
         const trx = document.getElementById('add-trx').value.trim();
+
         if(!amount || amount <= 0) return alert("সঠিক পরিমাণ টাকা দিন!");
         if(!trx) return alert("Transaction ID (TrxID) দিন!");
 
@@ -624,6 +662,7 @@
             status: 'Pending',
             time: new Date().toLocaleString('bn-BD')
         };
+
         db.ref('addMoneyRequests').push(requestData).then(() => {
             alert("অনুরোধ সফলভাবে জমা হয়েছে!");
             document.getElementById('add-amount').value = "";
@@ -636,8 +675,10 @@
         if(!isServerOnline) return;
         activeCategory = categoryKey;
         selectedPkg = null;
+
         if(document.getElementById('topup-game-title')) document.getElementById('topup-game-title').innerText = gameTitle;
         if(document.getElementById('checkout-total-price')) document.getElementById('checkout-total-price').innerText = `৳0`;
+
         renderFilteredPackages();
         show('topup');
     }
@@ -645,8 +686,10 @@
     function renderFilteredPackages() {
         const itemCont = document.getElementById('item-list');
         if (!itemCont) return;
+
         itemCont.innerHTML = "";
         let hasItems = false;
+
         Object.keys(globalItemsData).forEach(id => {
             const i = globalItemsData[id];
             if(i.category === activeCategory) {
@@ -658,6 +701,7 @@
                     </div>`;
             }
         });
+
         if(!hasItems) {
             itemCont.innerHTML = `<p class="col-span-2 sm:col-span-3 text-center text-xs text-gray-400 py-3">কোন প্যাকেজ নেই!</p>`;
         }
@@ -675,6 +719,7 @@
     function placeOrder() {
         if(!isServerOnline) return alert("সার্ভার অফলাইন!");
         if(!currentUser) { alert("প্রথমে লগইন করুন!"); show('login'); return; }
+
         const pid = document.getElementById('order-pid').value.trim();
         if(!pid) return alert("Player ID দিন!");
         if(!selectedPkg) return alert("প্যাকেজ সিলেক্ট করুন!");
@@ -683,6 +728,7 @@
             if(currentUserBalance < selectedPkg.price) {
                 return alert("ওয়ালেটে পর্যাপ্ত ব্যালেন্স নেই! দয়া করে Add Money করুন।");
             }
+
             const newBalance = currentUserBalance - selectedPkg.price;
             db.ref(`users/${currentUser.uid}/balance`).set(newBalance).then(() => {
                 const orderData = {
@@ -696,6 +742,7 @@
                     status: 'Pending',
                     time: new Date().toLocaleString('bn-BD')
                 };
+
                 db.ref('orders').push(orderData).then(() => {
                     alert("ওয়ালেট থেকে পেমেন্ট সফল হয়েছে!");
                     document.getElementById('order-pid').value = "";
@@ -706,6 +753,7 @@
         } else {
             const trx = document.getElementById('order-trx').value.trim();
             if(!trx) return alert("TrxID দিন!");
+
             const orderData = {
                 userEmail: currentUser.email,
                 userId: currentUser.uid,
@@ -717,6 +765,7 @@
                 status: 'Pending',
                 time: new Date().toLocaleString('bn-BD')
             };
+
             db.ref('orders').push(orderData).then(() => {
                 alert("অর্ডার জমা হয়েছে!");
                 document.getElementById('order-pid').value = "";

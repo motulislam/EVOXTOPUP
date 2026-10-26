@@ -1,743 +1,707 @@
 <!DOCTYPE html> 
-	<html lang="en-BD"> 
-	<head> 
-	<meta charset="utf-8">
-	<!-- This site is hosted on Netlify. Anyone can build and deploy a site
-	like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=9ab821b6-e553-4662-a2a5-74692271cafe
+<html lang="en-BD"> 	
+<head> 	
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 	
+<title>EVO X TOP UP - Games TopUp in Bangladesh</title> 	
+<meta name="theme-color" content="#0f52bd"> 	
 
-	Netlify hosting facts for this site: static/SSR served via Netlify Edge. --> 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-	<title>EVO X TOP UP - Games TopUp in Bangladesh</title> 
-	<meta name="theme-color" content="#0f52bd"> 
-	<link rel="icon" type="image/png" href="https://admin.topuppapa.com/notices/1780343714_ficon.jpeg"> 
+<!-- HD Logo & Favicon Integration -->
+<link rel="icon" type="image/png" href="https://i.ibb.co.com/84N39mK5/image-6d6073.png">
+<link rel="apple-touch-icon" href="https://i.ibb.co.com/84N39mK5/image-6d6073.png">
 
-	<!-- Firebase SDK (Compat Version) --> 
-	<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script> 
+<!-- Firebase SDK (Compat Version) --> 	
+<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script> 	
+<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database-compat.js"></script> 	
+<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script> 	
+<!-- Tailwind CSS & FontAwesome --> 	
+<script src="https://cdn.tailwindcss.com"></script> 	
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 	
+<style> 	
+:root { 	
+    --pipo: #0f52bd; 	
+    --pipo-light: #eff6ff; 	
+} 	
+.bg-pipo { background-color: var(--pipo); } 	
+.text-pipo { color: var(--pipo); } 	
+.border-pipo { border-color: var(--pipo); } 	
+.hidden-section { display: none !important; } 		
+.pkg-card { 	
+    border: 1.5px solid #e5e7eb; 	
+    border-radius: 12px; 	
+    background: #ffffff; 	
+    transition: all 0.2s ease-in-out; 	
+    cursor: pointer; 	
+} 	
+.pkg-card:hover { 	
+    border-color: var(--pipo); 	
+    transform: translateY(-2px); 	
+} 	
+.card-active { 	
+    border: 2px solid var(--pipo) !important; 	
+    background: #eff6ff !important; 	
+    box-shadow: 0 4px 10px rgba(15, 82, 189, 0.15); 	
+} 		
+.method-card { 	
+    border: 1.5px solid #e5e7eb; 	
+    border-radius: 10px; 	
+    transition: all 0.2s ease; 	
+    cursor: pointer; 	
+    padding: 10px; 	
+    text-align: center; 	
+    font-weight: 700; 	
+} 	
+.method-active { 	
+    border: 2px solid var(--pipo) !important; 	
+    background: #eff6ff !important; 	
+} 	
+.game-card-fix { 	
+    min-height: 180px; 	
+    height: auto; 	
+    display: flex; 	
+    flex-direction: column; 	
+    justify-content: space-between; 	
+    overflow: hidden; 	
+    border-radius: 14px; 	
+    background: #ffffff; 	
+    border: 1px solid #e5e7eb; 	
+    transition: all 0.2s ease; 	
+} 	
+@media (min-width: 640px) { 	
+    .game-card-fix { 	
+        height: 230px; 	
+    } 	
+} 	
+.game-card-fix:hover { 	
+    border-color: var(--pipo); 	
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); 	
+} 	
+.game-img-fix { 	
+    height: 110px !important; 	
+    width: 100% !important; 	
+    object-fit: cover !important; 	
+    object-position: center !important; 	
+} 	
+@media (min-width: 640px) { 	
+    .game-img-fix { 	
+        height: 155px !important; 	
+    } 	
+} 
+/* Crisp image rendering for logos */
+img {
+    image-rendering: -webkit-optimize-contrast;
+}
+</style> 	
+</head> 	
+<body class="bg-gray-50 font-sans text-gray-900 select-none min-h-screen flex flex-col"> 		
+<!-- Top Navbar --> 	
+<nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-200"> 	
+<div class="container mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex justify-between items-center max-w-6xl"> 	
+<h1 class="text-sm sm:text-2xl font-black cursor-pointer flex items-center gap-2" onclick="show('home')"> 	
+    <img src="https://i.ibb.co.com/84N39mK5/image-6d6073.png" alt="Logo" class="w-7 h-7 sm:w-9 sm:h-9 object-contain rounded-lg shadow-sm">
+    <div>
+        <span class="text-pipo">EVO X</span> <span class="text-gray-800">GAMING</span> 	
+    </div>
+</h1> 	
+<div class="flex items-center gap-1.5 sm:gap-4"> 	
+<button onclick="show('home')" class="text-xs font-bold text-gray-700 hover:text-pipo hidden sm:inline">Topup</button> 	
+<a id="link-wa-nav" href="https://wa.me/8801679409071" target="_blank" class="text-xs font-bold text-gray-700 hover:text-pipo hidden sm:inline">Contact Us</a> 		
+<!-- Wallet Button --> 	
+<button onclick="openAddMoneyModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 shadow-sm transition cursor-pointer"> 	
+<i class="fa-solid fa-wallet"></i> <span id="nav-balance-text">৳0</span> 	
+</button> 	
+<!-- User Login UI --> 	
+<div id="logged-in-ui" class="hidden flex items-center gap-1.5 sm:gap-2"> 	
+<div onclick="show('history')" class="cursor-pointer flex items-center gap-1 bg-blue-50 border border-blue-200 px-2 py-1 rounded-full"> 	
+<img id="user-avatar" src="https://i.ibb.co/5G02kwv/default-avatar.png" class="w-4 h-4 sm:w-5 sm:h-5 rounded-full object-cover" alt="User"> 	
+<span id="user-display" class="font-bold text-[10px] sm:text-xs text-pipo uppercase max-w-[60px] sm:max-w-none truncate"></span> 	
+</div> 	
+<button onclick="handleLogout()" class="text-[10px] sm:text-xs text-red-600 font-bold border border-red-200 px-1.5 sm:px-2 py-1 rounded-lg">Logout</button> 	
+</div> 	
+<button id="login-btn" onclick="show('login')" class="bg-pipo text-white px-2.5 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold shadow-sm">Login</button> 	
+</div> 	
+</div> 	
+</nav> 		
 
-	<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database-compat.js"></script> 
+<div class="container mx-auto px-2.5 sm:px-4 py-3 sm:py-4 max-w-5xl flex-grow"> 		
+<div id="offline-msg" class="hidden bg-red-600 text-white p-3 rounded-xl mb-4 text-center font-bold text-xs shadow"> 	
+সার্ভার এখন অফলাইন। 	
+</div> 		
+<!-- Home Section --> 	
+<div id="section-home"> 	
+<!-- Notice Bar --> 	
+<div class="bg-white rounded-xl border border-gray-200 mb-4 shadow-sm flex items-center overflow-hidden"> 	
+<div class="bg-pipo text-white text-[10px] sm:text-xs font-bold px-2.5 sm:px-3.5 py-2 sm:py-2.5 flex items-center gap-1 whitespace-nowrap"> 	
+<i class="fa-solid fa-bullhorn"></i> NOTICE 	
+</div> 	
+<marquee id="view-notice" class="font-bold text-gray-700 italic text-xs px-2">Welcome to EVO X GAMING!</marquee> 	
+</div> 		
+<!-- Banner Slider --> 	
+<div class="relative rounded-2xl mb-6 shadow-md overflow-hidden h-32 sm:h-64 bg-cover bg-center" id="promo-banner" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1000');"> 	
+<div class="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5" id="slider-dots"></div> 	
+</div> 		
+<h3 class="font-black text-sm sm:text-lg mb-3 sm:mb-4 text-gray-800 flex items-center gap-2"> 	
+<i class="fa-solid fa-gamepad text-pipo"></i> Select Game <span class="text-pipo">Top-Up</span> 	
+</h3> 		
+<div id="game-cards-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 sm:gap-4"></div> 	
+</div> 		
+<!-- Topup Details Section --> 	
+<div id="section-topup" class="hidden-section"> 	
+<button onclick="show('home')" class="mb-4 text-pipo font-bold flex items-center gap-1.5 text-xs bg-white px-3.5 py-2 rounded-xl border border-gray-200 shadow-sm w-fit"> 	
+<i class="fa-solid fa-arrow-left"></i> Back to Home 	
+</button> 	
+<div id="main-content-area" class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5"> 		
+<div class="md:col-span-2 space-y-4"> 	
+<div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center justify-between"> 	
+<div> 	
+<h2 id="topup-game-title" class="font-black text-sm sm:text-lg text-pipo uppercase">Game Title</h2> 	
+<p class="text-[10px] sm:text-[11px] text-gray-500 font-semibold mt-0.5"><i class="fa-solid fa-circle-check text-green-500 mr-1"></i> Instant Automated Recharge</p> 	
+</div> 	
+<span class="bg-blue-50 text-pipo border border-blue-200 text-[9px] sm:text-[10px] font-bold px-2.5 sm:px-3 py-1 rounded-full uppercase">BD Server</span> 	
+</div> 		
+<!-- STEP 1 --> 	
+<div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-gray-200 shadow-sm"> 	
+<h3 class="font-bold text-xs sm:text-sm text-gray-800 mb-2 flex items-center gap-2"> 	
+<span class="w-5 h-5 rounded-full bg-pipo text-white text-[10px] flex items-center justify-center font-bold">1</span> 	
+Enter Player ID (UID) 	
+</h3> 	
+<input type="text" id="order-pid" placeholder="Enter Player ID (UID)" class="w-full border border-gray-300 p-2.5 sm:p-3 rounded-xl bg-gray-50 text-xs sm:text-sm outline-none focus:bg-white focus:ring-2 ring-blue-500"> 	
+</div> 		
+<!-- STEP 2 --> 	
+<div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-gray-200 shadow-sm"> 	
+<h3 class="font-bold text-xs sm:text-sm text-gray-800 mb-3 flex items-center gap-2"> 	
+<span class="w-5 h-5 rounded-full bg-pipo text-white text-[10px] flex items-center justify-center font-bold">2</span> 	
+Select Diamond Pack 	
+</h3> 	
+<div id="item-list" class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2.5"></div> 	
+</div> 		
+<!-- STEP 3 --> 	
+<div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-gray-200 shadow-sm"> 	
+<h3 class="font-bold text-xs sm:text-sm text-gray-800 mb-3 flex items-center gap-2"> 	
+<span class="w-5 h-5 rounded-full bg-pipo text-white text-[10px] flex items-center justify-center font-bold">3</span> 	
+Select Payment Method 	
+</h3> 	
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 mb-4"> 	
+<div onclick="selectMethod('Wallet')" id="method-wallet" class="method-card text-blue-600 method-active bg-blue-50 text-xs">Wallet Balance</div> 	
+<div onclick="selectMethod('bKash')" id="method-bkash" class="method-card text-pink-600 text-xs">bKash</div> 	
+<div onclick="selectMethod('Nagad')" id="method-nagad" class="method-card text-orange-600 text-xs">Nagad</div> 	
+<div onclick="selectMethod('Rocket')" id="method-rocket" class="method-card text-purple-600 text-xs">Rocket</div> 	
+</div> 	
+<div id="wallet-payment-box" class="bg-blue-50 p-3.5 rounded-xl border border-blue-200 text-xs"> 	
+<p class="font-bold text-blue-900">Wallet Balance: <span id="payment-wallet-balance" class="font-black text-pipo text-sm">৳0</span></p> 	
+</div> 	
+<div id="manual-payment-box" class="hidden bg-gray-50 p-3.5 rounded-xl border border-gray-200 space-y-2 text-xs"> 	
+<div class="flex justify-between items-center font-bold text-gray-700"> 	
+<span><span id="selected-method-name">bKash</span> Number:</span> 	
+<span id="view-num" class="text-pipo font-black select-all">Loading...</span> 	
+</div> 	
+<input type="text" id="order-trx" placeholder="Transaction ID (TrxID)" class="w-full border border-gray-300 p-2.5 rounded-lg bg-white text-xs uppercase outline-none"> 	
+</div> 	
+</div> 		
+<!-- STEP 4 --> 	
+<div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-row justify-between items-center gap-3"> 	
+<div> 	
+<p class="text-[10px] text-gray-400 font-bold uppercase">Total Payable</p> 	
+<h4 id="checkout-total-price" class="text-lg sm:text-xl font-black text-pipo">৳0</h4> 	
+</div> 	
+<button id="order-btn" onclick="placeOrder()" class="w-auto bg-pipo hover:bg-blue-700 text-white px-5 sm:px-8 py-2.5 sm:py-3 rounded-xl text-xs font-bold shadow-md uppercase">Buy Now</button> 	
+</div> 	
+</div> 		
+<!-- Right Sidebar (Hidden on Mobile) --> 	
+<div class="space-y-4 hidden md:block"> 	
+<div class="bg-gray-900 text-white p-4 rounded-2xl shadow-sm flex items-center justify-between"> 	
+<div> 	
+<p class="text-[9px] text-gray-400 font-bold">SERVER STATUS</p> 	
+<p id="status-text" class="font-black text-xs text-green-400 mt-0.5">ONLINE</p> 	
+</div> 	
+<i class="fa-solid fa-shield-halved text-2xl text-blue-500"></i> 	
+</div> 	
+<div class="bg-blue-50 border border-blue-100 p-4 rounded-2xl text-xs text-blue-900 space-y-2"> 	
+<h4 class="font-bold flex items-center gap-1.5 text-pipo"><i class="fa-solid fa-circle-exclamation"></i> নিয়মাবলী:</h4> 	
+<p class="text-[11px] text-gray-700 leading-relaxed">১. সঠিক Player ID দিন。<br>২. ওয়ালেট থেকে সরাসরি পেমেন্ট করুন।</p> 	
+</div> 	
+</div> 		
+</div> 	
+</div> 		
+<!-- Add Money Section --> 	
+<div id="section-addmoney" class="hidden-section max-w-md mx-auto bg-white p-4 sm:p-6 rounded-2xl shadow-xl border border-gray-200 mt-4 sm:mt-6"> 	
+<button onclick="show('home')" class="mb-3 text-pipo font-bold flex items-center gap-1.5 text-xs bg-gray-50 px-3 py-1.5 rounded-lg border"> 	
+<i class="fa-solid fa-arrow-left"></i> Back 	
+</button> 	
+<h2 class="text-center font-black text-base sm:text-lg mb-4 text-gray-800">Add Money to Wallet</h2> 		
+<div class="space-y-3 text-xs"> 	
+<div> 	
+<label class="font-bold text-gray-700 block mb-1">Select Method:</label> 	
+<div class="grid grid-cols-3 gap-2"> 	
+<div onclick="selectAddMethod('bKash')" id="add-method-bkash" class="method-card text-pink-600 method-active">bKash</div> 	
+<div onclick="selectAddMethod('Nagad')" id="add-method-nagad" class="method-card text-orange-600">Nagad</div> 	
+<div onclick="selectAddMethod('Rocket')" id="add-method-rocket" class="method-card text-purple-600">Rocket</div> 	
+</div> 	
+</div> 	
+<div class="bg-blue-50 p-3 rounded-xl border border-blue-100 text-blue-900"> 	
+<p class="font-bold">Send Money to: <span id="add-wallet-num" class="text-pipo select-all font-black">Loading...</span></p> 	
+</div> 	
+<div> 	
+<label class="font-bold text-gray-700 block mb-1">Amount (৳):</label> 	
+<input type="number" id="add-amount" placeholder="Enter Amount" class="w-full border p-2.5 rounded-lg outline-none"> 	
+</div> 	
+<div> 	
+<label class="font-bold text-gray-700 block mb-1">Transaction ID (TrxID):</label> 	
+<input type="text" id="add-trx" placeholder="Enter TrxID" class="w-full border p-2.5 rounded-lg uppercase outline-none"> 	
+</div> 	
+<button onclick="submitAddMoney()" class="w-full bg-pipo text-white py-2.5 rounded-xl font-bold shadow-md">Submit Request</button> 	
+</div> 	
+</div> 		
+<!-- Login Section --> 	
+<div id="section-login" class="hidden-section max-w-sm mx-auto bg-white p-4 sm:p-6 rounded-2xl shadow-xl border border-gray-200 mt-4 sm:mt-6"> 	
+<h2 class="text-center font-black text-base sm:text-lg mb-4 text-gray-800" id="auth-title">Get Started</h2> 		
+<button onclick="loginWithGoogle()" class="w-full bg-white border border-gray-300 text-gray-700 py-2.5 rounded-xl text-xs font-bold shadow-sm mb-4 flex items-center justify-center gap-2"> 	
+<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="16" alt="Google"> 	
+Continue with Google 	
+</button> 	
+<div class="flex border-b border-gray-200 mb-4 text-xs"> 	
+<button onclick="toggleAuthTab('in')" id="tab-login" class="flex-1 pb-2 font-bold border-b-2 border-pipo text-pipo">Login</button> 	
+<button onclick="toggleAuthTab('up')" id="tab-signup" class="flex-1 pb-2 font-bold text-gray-400">Sign Up</button> 	
+</div> 	
+<div class="space-y-3 text-xs"> 	
+<input type="email" id="auth-email" placeholder="Email" class="w-full border p-2.5 rounded-lg outline-none"> 	
+<input type="password" id="auth-pass" placeholder="Password" class="w-full border p-2.5 rounded-lg outline-none"> 	
+<button id="auth-main-btn" onclick="handleAuth()" class="w-full bg-pipo text-white py-2.5 rounded-lg font-bold">Proceed</button> 	
+</div> 	
+</div> 		
+<!-- History Section --> 	
+<div id="section-history" class="hidden-section"> 	
+<div class="bg-gradient-to-r from-blue-600 to-indigo-800 text-white p-3.5 sm:p-4 rounded-2xl shadow-sm mb-4"> 	
+<div class="flex items-center gap-3"> 	
+<img id="profile-avatar-large" src="https://i.ibb.co/5G02kwv/default-avatar.png" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-white object-cover"> 	
+<div class="min-w-0 flex-1"> 	
+<p class="text-[9px] opacity-70 uppercase font-bold">Account Profile</p> 	
+<h3 id="profile-email-title" class="text-xs sm:text-sm font-bold mt-0.5 truncate">loading...</h3> 	
+</div> 	
+</div> 	
+<div class="mt-4 flex gap-3 sm:gap-6 text-[10px] sm:text-[11px] border-t border-white/20 pt-3 justify-between sm:justify-start"> 	
+<div><p class="opacity-70">Wallet Balance</p><p id="profile-balance" class="text-sm sm:text-lg font-black text-green-300">৳0</p></div> 	
+<div class="border-l border-white/20 pl-3 sm:pl-6"><p class="opacity-70">Total Requests</p><p id="count-total" class="text-sm sm:text-lg font-black">0</p></div> 	
+<div class="border-l border-white/20 pl-3 sm:pl-6"><p class="opacity-70">Approved</p><p id="count-success" class="text-sm sm:text-lg font-black text-green-300">0</p></div> 	
+</div> 	
+</div> 	
+<div class="flex justify-between items-center mb-3"> 	
+<h2 class="text-xs sm:text-sm font-bold text-gray-800">My Orders & Add Money History</h2> 	
+<button onclick="show('home')" class="text-pipo font-bold text-xs">Back</button> 	
+</div> 	
+<div id="history-container" class="space-y-2 pb-20"></div> 	
+</div> 		
+</div> 		
 
-	<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script> 
+<!-- Floating Social --> 	
+<div class="fixed bottom-4 right-4 z-50 flex flex-col gap-2"> 	
+<a id="link-wa" href="https://wa.me/8801679409071" target="_blank" class="w-9 h-9 sm:w-10 sm:h-10 bg-green-500 text-white text-base sm:text-lg flex items-center justify-center rounded-full shadow-lg"><i class="fa-brands fa-whatsapp"></i></a> 	
+<a id="link-tg" href="https://t.me/evoxwww" target="_blank" class="w-9 h-9 sm:w-10 sm:h-10 bg-blue-500 text-white text-base sm:text-lg flex items-center justify-center rounded-full shadow-lg"><i class="fa-brands fa-telegram"></i></a> 	
+</div> 		
 
-	<!-- Tailwind CSS & FontAwesome --> 
-	<script src="https://cdn.tailwindcss.com"></script> 
+<script> 	
+const firebaseConfig = { 	
+    apiKey: "AIzaSyD2J363sc8-9e5fFh2tdQvqM4OLDkJJYLo", 	
+    authDomain: "evo-x-gaming.firebaseapp.com", 	
+    databaseURL: "https://evo-x-gaming-default-rtdb.asia-southeast1.firebasedatabase.app", 	
+    projectId: "evo-x-gaming", 	
+    storageBucket: "evo-x-gaming.firebasestorage.app", 	
+    messagingSenderId: "501674992039", 	
+    appId: "1:501674992039:web:5a7bc97449dfd0c22b1682" 	
+}; 	
+firebase.initializeApp(firebaseConfig); 	
+const db = firebase.database(); 	
+const auth = firebase.auth(); 		
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 
+let currentUser = null; 	
+let selectedPkg = null; 	
+let selectedMethod = "Wallet"; 	
+let selectedAddMethod = "bKash"; 	
+let authMode = "in"; 	
+let isServerOnline = true; 	
+let serverWalletData = {}; 	
+let activeCategory = ""; 	
+let globalItemsData = {}; 	
+let currentUserBalance = 0; 		
 
-	<style> 
-	:root { 
-	--pipo: #0f52bd; 
-	--pipo-light: #eff6ff; 
-	} 
-	.bg-pipo { background-color: var(--pipo); } 
-	.text-pipo { color: var(--pipo); } 
-	.border-pipo { border-color: var(--pipo); } 
-	.hidden-section { display: none !important; } 
-	
-	.pkg-card { 
-	border: 1.5px solid #e5e7eb; 
-	border-radius: 12px; 
-	background: #ffffff; 
-	transition: all 0.2s ease-in-out; 
-	cursor: pointer; 
-	} 
-	.pkg-card:hover { 
-	border-color: var(--pipo); 
-	transform: translateY(-2px); 
-	} 
-	.card-active { 
-	border: 2px solid var(--pipo) !important; 
-	background: #eff6ff !important; 
-	box-shadow: 0 4px 10px rgba(15, 82, 189, 0.15); 
-	} 
-	
-	.method-card { 
-	border: 1.5px solid #e5e7eb; 
-	border-radius: 10px; 
-	transition: all 0.2s ease; 
-	cursor: pointer; 
-	padding: 10px; 
-	text-align: center; 
-	font-weight: 700; 
-	} 
-	.method-active { 
-	border: 2px solid var(--pipo) !important; 
-	background: #eff6ff !important; 
-	} 
-	.game-card-fix { 
-	min-height: 180px; 
-	height: auto; 
-	display: flex; 
-	flex-direction: column; 
-	justify-content: space-between; 
-	overflow: hidden; 
-	border-radius: 14px; 
-	background: #ffffff; 
-	border: 1px solid #e5e7eb; 
-	transition: all 0.2s ease; 
-	} 
-	@media (min-width: 640px) { 
-	.game-card-fix { 
-	height: 230px; 
-	} 
-	} 
-	.game-card-fix:hover { 
-	border-color: var(--pipo); 
-	box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); 
-	} 
-	.game-img-fix { 
-	height: 110px !important; 
-	width: 100% !important; 
-	object-fit: cover !important; 
-	object-position: center !important; 
-	} 
-	@media (min-width: 640px) { 
-	.game-img-fix { 
-	height: 155px !important; 
-	} 
-	} 
-	</style> 
-	</head> 
-	<body class="bg-gray-50 font-sans text-gray-900 select-none min-h-screen flex flex-col"> 
-	
-	<!-- Top Navbar --> 
-	<nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-200"> 
-	<div class="container mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex justify-between items-center max-w-6xl"> 
-	<h1 class="text-sm sm:text-2xl font-black cursor-pointer flex items-center gap-1.5" onclick="show('home')"> 
-	<span class="text-pipo">EVO X</span> <span class="text-gray-800">GAMING</span> 
-	</h1> 
-	<div class="flex items-center gap-1.5 sm:gap-4"> 
-	<button onclick="show('home')" class="text-xs font-bold text-gray-700 hover:text-pipo hidden sm:inline">Topup</button> 
-	<a id="link-wa-nav" href="https://wa.me/8801679409071" target="_blank" class="text-xs font-bold text-gray-700 hover:text-pipo hidden sm:inline">Contact Us</a> 
-	
-	<!-- Wallet Button --> 
-	<button onclick="openAddMoneyModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 shadow-sm transition cursor-pointer"> 
-	<i class="fa-solid fa-wallet"></i> <span id="nav-balance-text">৳0</span> 
-	</button> 
-	<!-- User Login UI --> 
-	<div id="logged-in-ui" class="hidden flex items-center gap-1.5 sm:gap-2"> 
-	<div onclick="show('history')" class="cursor-pointer flex items-center gap-1 bg-blue-50 border border-blue-200 px-2 py-1 rounded-full"> 
-	<img id="user-avatar" src="https://i.ibb.co/5G02kwv/default-avatar.png" class="w-4 h-4 sm:w-5 sm:h-5 rounded-full object-cover" alt="User"> 
-	<span id="user-display" class="font-bold text-[10px] sm:text-xs text-pipo uppercase max-w-[60px] sm:max-w-none truncate"></span> 
-	</div> 
-	<button onclick="handleLogout()" class="text-[10px] sm:text-xs text-red-600 font-bold border border-red-200 px-1.5 sm:px-2 py-1 rounded-lg">Logout</button> 
-	</div> 
-	<button id="login-btn" onclick="show('login')" class="bg-pipo text-white px-2.5 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold shadow-sm">Login</button> 
-	</div> 
-	</div> 
-	</nav> 
-	
-	<div class="container mx-auto px-2.5 sm:px-4 py-3 sm:py-4 max-w-5xl flex-grow"> 
-	
-	<div id="offline-msg" class="hidden bg-red-600 text-white p-3 rounded-xl mb-4 text-center font-bold text-xs shadow"> 
-	সার্ভার এখন অফলাইন। 
-	</div> 
-	
-	<!-- Home Section --> 
-	<div id="section-home"> 
-	<!-- Notice Bar --> 
-	<div class="bg-white rounded-xl border border-gray-200 mb-4 shadow-sm flex items-center overflow-hidden"> 
-	<div class="bg-pipo text-white text-[10px] sm:text-xs font-bold px-2.5 sm:px-3.5 py-2 sm:py-2.5 flex items-center gap-1 whitespace-nowrap"> 
-	<i class="fa-solid fa-bullhorn"></i> NOTICE 
-	</div> 
-	<marquee id="view-notice" class="font-bold text-gray-700 italic text-xs px-2">Welcome to EVO X GAMING!</marquee> 
-	</div> 
-	
-	<!-- Banner Slider --> 
-	<div class="relative rounded-2xl mb-6 shadow-md overflow-hidden h-32 sm:h-64 bg-cover bg-center" id="promo-banner" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1000');"> 
-	<div class="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5" id="slider-dots"></div> 
-	</div> 
-	
-	<h3 class="font-black text-sm sm:text-lg mb-3 sm:mb-4 text-gray-800 flex items-center gap-2"> 
-	<i class="fa-solid fa-gamepad text-pipo"></i> Select Game <span class="text-pipo">Top-Up</span> 
-	</h3> 
-	
-	<div id="game-cards-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 sm:gap-4"></div> 
-	</div> 
-	
-	<!-- Topup Details Section --> 
-	<div id="section-topup" class="hidden-section"> 
-	<button onclick="show('home')" class="mb-4 text-pipo font-bold flex items-center gap-1.5 text-xs bg-white px-3.5 py-2 rounded-xl border border-gray-200 shadow-sm w-fit"> 
-	<i class="fa-solid fa-arrow-left"></i> Back to Home 
-	</button> 
-	<div id="main-content-area" class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5"> 
-	
-	<div class="md:col-span-2 space-y-4"> 
-	<div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center justify-between"> 
-	<div> 
-	<h2 id="topup-game-title" class="font-black text-sm sm:text-lg text-pipo uppercase">Game Title</h2> 
-	<p class="text-[10px] sm:text-[11px] text-gray-500 font-semibold mt-0.5"><i class="fa-solid fa-circle-check text-green-500 mr-1"></i> Instant Automated Recharge</p> 
-	</div> 
-	<span class="bg-blue-50 text-pipo border border-blue-200 text-[9px] sm:text-[10px] font-bold px-2.5 sm:px-3 py-1 rounded-full uppercase">BD Server</span> 
-	</div> 
-	
-	<!-- STEP 1 --> 
-	<div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-gray-200 shadow-sm"> 
-	<h3 class="font-bold text-xs sm:text-sm text-gray-800 mb-2 flex items-center gap-2"> 
-	<span class="w-5 h-5 rounded-full bg-pipo text-white text-[10px] flex items-center justify-center font-bold">1</span> 
-	Enter Player ID (UID) 
-	</h3> 
-	<input type="text" id="order-pid" placeholder="Enter Player ID (UID)" class="w-full border border-gray-300 p-2.5 sm:p-3 rounded-xl bg-gray-50 text-xs sm:text-sm outline-none focus:bg-white focus:ring-2 ring-blue-500"> 
-	</div> 
-	
-	<!-- STEP 2 --> 
-	<div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-gray-200 shadow-sm"> 
-	<h3 class="font-bold text-xs sm:text-sm text-gray-800 mb-3 flex items-center gap-2"> 
-	<span class="w-5 h-5 rounded-full bg-pipo text-white text-[10px] flex items-center justify-center font-bold">2</span> 
-	Select Diamond Pack 
-	</h3> 
-	<div id="item-list" class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2.5"></div> 
-	</div> 
-	
-	<!-- STEP 3 --> 
-	<div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-gray-200 shadow-sm"> 
-	<h3 class="font-bold text-xs sm:text-sm text-gray-800 mb-3 flex items-center gap-2"> 
-	<span class="w-5 h-5 rounded-full bg-pipo text-white text-[10px] flex items-center justify-center font-bold">3</span> 
-	Select Payment Method 
-	</h3> 
-	<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 mb-4"> 
-	<div onclick="selectMethod('Wallet')" id="method-wallet" class="method-card text-blue-600 method-active bg-blue-50 text-xs">Wallet Balance</div> 
-	<div onclick="selectMethod('bKash')" id="method-bkash" class="method-card text-pink-600 text-xs">bKash</div> 
-	<div onclick="selectMethod('Nagad')" id="method-nagad" class="method-card text-orange-600 text-xs">Nagad</div> 
-	<div onclick="selectMethod('Rocket')" id="method-rocket" class="method-card text-purple-600 text-xs">Rocket</div> 
-	</div> 
-	<div id="wallet-payment-box" class="bg-blue-50 p-3.5 rounded-xl border border-blue-200 text-xs"> 
-	<p class="font-bold text-blue-900">Wallet Balance: <span id="payment-wallet-balance" class="font-black text-pipo text-sm">৳0</span></p> 
-	</div> 
-	<div id="manual-payment-box" class="hidden bg-gray-50 p-3.5 rounded-xl border border-gray-200 space-y-2 text-xs"> 
-	<div class="flex justify-between items-center font-bold text-gray-700"> 
-	<span><span id="selected-method-name">bKash</span> Number:</span> 
-	<span id="view-num" class="text-pipo font-black select-all">Loading...</span> 
-	</div> 
-	<input type="text" id="order-trx" placeholder="Transaction ID (TrxID)" class="w-full border border-gray-300 p-2.5 rounded-lg bg-white text-xs uppercase outline-none"> 
-	</div> 
-	</div> 
-	
-	<!-- STEP 4 --> 
-	<div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-row justify-between items-center gap-3"> 
-	<div> 
-	<p class="text-[10px] text-gray-400 font-bold uppercase">Total Payable</p> 
-	<h4 id="checkout-total-price" class="text-lg sm:text-xl font-black text-pipo">৳0</h4> 
-	</div> 
-	<button id="order-btn" onclick="placeOrder()" class="w-auto bg-pipo hover:bg-blue-700 text-white px-5 sm:px-8 py-2.5 sm:py-3 rounded-xl text-xs font-bold shadow-md uppercase">Buy Now</button> 
-	</div> 
-	</div> 
-	
-	<!-- Right Sidebar (Hidden on Mobile) --> 
-	<div class="space-y-4 hidden md:block"> 
-	<div class="bg-gray-900 text-white p-4 rounded-2xl shadow-sm flex items-center justify-between"> 
-	<div> 
-	<p class="text-[9px] text-gray-400 font-bold">SERVER STATUS</p> 
-	<p id="status-text" class="font-black text-xs text-green-400 mt-0.5">ONLINE</p> 
-	</div> 
-	<i class="fa-solid fa-shield-halved text-2xl text-blue-500"></i> 
-	</div> 
-	<div class="bg-blue-50 border border-blue-100 p-4 rounded-2xl text-xs text-blue-900 space-y-2"> 
-	<h4 class="font-bold flex items-center gap-1.5 text-pipo"><i class="fa-solid fa-circle-exclamation"></i> নিয়মাবলী:</h4> 
-	<p class="text-[11px] text-gray-700 leading-relaxed">১. সঠিক Player ID দিন。<br>২. ওয়ালেট থেকে সরাসরি পেমেন্ট করুন।</p> 
-	</div> 
-	</div> 
-	
-	</div> 
-	</div> 
-	
-	<!-- Add Money Section --> 
-	<div id="section-addmoney" class="hidden-section max-w-md mx-auto bg-white p-4 sm:p-6 rounded-2xl shadow-xl border border-gray-200 mt-4 sm:mt-6"> 
-	<button onclick="show('home')" class="mb-3 text-pipo font-bold flex items-center gap-1.5 text-xs bg-gray-50 px-3 py-1.5 rounded-lg border"> 
-	<i class="fa-solid fa-arrow-left"></i> Back 
-	</button> 
-	<h2 class="text-center font-black text-base sm:text-lg mb-4 text-gray-800">Add Money to Wallet</h2> 
-	
-	<div class="space-y-3 text-xs"> 
-	<div> 
-	<label class="font-bold text-gray-700 block mb-1">Select Method:</label> 
-	<div class="grid grid-cols-3 gap-2"> 
-	<div onclick="selectAddMethod('bKash')" id="add-method-bkash" class="method-card text-pink-600 method-active">bKash</div> 
-	<div onclick="selectAddMethod('Nagad')" id="add-method-nagad" class="method-card text-orange-600">Nagad</div> 
-	<div onclick="selectAddMethod('Rocket')" id="add-method-rocket" class="method-card text-purple-600">Rocket</div> 
-	</div> 
-	</div> 
-	<div class="bg-blue-50 p-3 rounded-xl border border-blue-100 text-blue-900"> 
-	<p class="font-bold">Send Money to: <span id="add-wallet-num" class="text-pipo select-all font-black">Loading...</span></p> 
-	</div> 
-	<div> 
-	<label class="font-bold text-gray-700 block mb-1">Amount (৳):</label> 
-	<input type="number" id="add-amount" placeholder="Enter Amount" class="w-full border p-2.5 rounded-lg outline-none"> 
-	</div> 
-	<div> 
-	<label class="font-bold text-gray-700 block mb-1">Transaction ID (TrxID):</label> 
-	<input type="text" id="add-trx" placeholder="Enter TrxID" class="w-full border p-2.5 rounded-lg uppercase outline-none"> 
-	</div> 
-	<button onclick="submitAddMoney()" class="w-full bg-pipo text-white py-2.5 rounded-xl font-bold shadow-md">Submit Request</button> 
-	</div> 
-	</div> 
-	
-	<!-- Login Section --> 
-	<div id="section-login" class="hidden-section max-w-sm mx-auto bg-white p-4 sm:p-6 rounded-2xl shadow-xl border border-gray-200 mt-4 sm:mt-6"> 
-	<h2 class="text-center font-black text-base sm:text-lg mb-4 text-gray-800" id="auth-title">Get Started</h2> 
-	
-	<button onclick="loginWithGoogle()" class="w-full bg-white border border-gray-300 text-gray-700 py-2.5 rounded-xl text-xs font-bold shadow-sm mb-4 flex items-center justify-center gap-2"> 
-	<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="16" alt="Google"> 
-	Continue with Google 
-	</button> 
-	<div class="flex border-b border-gray-200 mb-4 text-xs"> 
-	<button onclick="toggleAuthTab('in')" id="tab-login" class="flex-1 pb-2 font-bold border-b-2 border-pipo text-pipo">Login</button> 
-	<button onclick="toggleAuthTab('up')" id="tab-signup" class="flex-1 pb-2 font-bold text-gray-400">Sign Up</button> 
-	</div> 
-	<div class="space-y-3 text-xs"> 
-	<input type="email" id="auth-email" placeholder="Email" class="w-full border p-2.5 rounded-lg outline-none"> 
-	<input type="password" id="auth-pass" placeholder="Password" class="w-full border p-2.5 rounded-lg outline-none"> 
-	<button id="auth-main-btn" onclick="handleAuth()" class="w-full bg-pipo text-white py-2.5 rounded-lg font-bold">Proceed</button> 
-	</div> 
-	</div> 
-	
-	<!-- History Section --> 
-	<div id="section-history" class="hidden-section"> 
-	<div class="bg-gradient-to-r from-blue-600 to-indigo-800 text-white p-3.5 sm:p-4 rounded-2xl shadow-sm mb-4"> 
-	<div class="flex items-center gap-3"> 
-	<img id="profile-avatar-large" src="https://i.ibb.co/5G02kwv/default-avatar.png" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-white object-cover"> 
-	<div class="min-w-0 flex-1"> 
-	<p class="text-[9px] opacity-70 uppercase font-bold">Account Profile</p> 
-	<h3 id="profile-email-title" class="text-xs sm:text-sm font-bold mt-0.5 truncate">loading...</h3> 
-	</div> 
-	</div> 
-	<div class="mt-4 flex gap-3 sm:gap-6 text-[10px] sm:text-[11px] border-t border-white/20 pt-3 justify-between sm:justify-start"> 
-	<div><p class="opacity-70">Wallet Balance</p><p id="profile-balance" class="text-sm sm:text-lg font-black text-green-300">৳0</p></div> 
-	<div class="border-l border-white/20 pl-3 sm:pl-6"><p class="opacity-70">Total Requests</p><p id="count-total" class="text-sm sm:text-lg font-black">0</p></div> 
-	<div class="border-l border-white/20 pl-3 sm:pl-6"><p class="opacity-70">Approved</p><p id="count-success" class="text-sm sm:text-lg font-black text-green-300">0</p></div> 
-	</div> 
-	</div> 
-	<div class="flex justify-between items-center mb-3"> 
-	<h2 class="text-xs sm:text-sm font-bold text-gray-800">My Orders & Add Money History</h2> 
-	<button onclick="show('home')" class="text-pipo font-bold text-xs">Back</button> 
-	</div> 
-	<div id="history-container" class="space-y-2 pb-20"></div> 
-	</div> 
-	
-	</div> 
-	
-	<!-- Floating Social --> 
-	<div class="fixed bottom-4 right-4 z-50 flex flex-col gap-2"> 
-	<a id="link-wa" href="https://wa.me/8801679409071" target="_blank" class="w-9 h-9 sm:w-10 sm:h-10 bg-green-500 text-white text-base sm:text-lg flex items-center justify-center rounded-full shadow-lg"><i class="fa-brands fa-whatsapp"></i></a> 
-	<a id="link-tg" href="https://t.me/evoxwww" target="_blank" class="w-9 h-9 sm:w-10 sm:h-10 bg-blue-500 text-white text-base sm:text-lg flex items-center justify-center rounded-full shadow-lg"><i class="fa-brands fa-telegram"></i></a> 
-	</div> 
-	
-	<script> 
-	const firebaseConfig = { 
-	apiKey: "AIzaSyD2J363sc8-9e5fFh2tdQvqM4OLDkJJYLo", 
-	authDomain: "evo-x-gaming.firebaseapp.com", 
-	databaseURL: "https://evo-x-gaming-default-rtdb.asia-southeast1.firebasedatabase.app", 
+let bannerList = []; 	
+let currentBannerIndex = 0; 	
+let bannerInterval = null; 		
 
-	projectId: "evo-x-gaming", 
-	storageBucket: "evo-x-gaming.firebasestorage.app", 
-	messagingSenderId: "501674992039", 
-	appId: "1:501674992039:web:5a7bc97449dfd0c22b1682" 
-	}; 
-	firebase.initializeApp(firebaseConfig); 
-	const db = firebase.database(); 
-	const auth = firebase.auth(); 
-	
-	let currentUser = null; 
-	let selectedPkg = null; 
-	let selectedMethod = "Wallet"; 
-	let selectedAddMethod = "bKash"; 
-	let authMode = "in"; 
-	let isServerOnline = true; 
-	let serverWalletData = {}; 
-	let activeCategory = ""; 
-	let globalItemsData = {}; 
-	let currentUserBalance = 0; 
-	
-	let bannerList = []; 
-	let currentBannerIndex = 0; 
-	let bannerInterval = null; 
-	
-	db.ref('/').on('value', (snap) => { 
-	const data = snap.val() || {}; 
-	isServerOnline = data.settings?.isOnline !== false; 
-	if(document.getElementById('offline-msg')) document.getElementById('offline-msg').classList.toggle('hidden', isServerOnline); 
-	
-	if(document.getElementById('status-text')) { 
-	document.getElementById('status-text').innerText = isServerOnline ? "ONLINE" : "OFFLINE"; 
-	document.getElementById('status-text').className = isServerOnline ? "font-black text-xs text-green-400" : "font-black text-xs text-red-500"; 
-	} 
-	if(document.getElementById('view-notice')) document.getElementById('view-notice').innerText = data.settings?.notice || "EVO X GAMING"; 
-	
-	if(data.settings?.bannerUrl) { 
-	bannerList = data.settings.bannerUrl.includes(',') ? data.settings.bannerUrl.split(',').map(s => s.trim()) : [data.settings.bannerUrl.trim()]; 
-	startBannerSlider(); 
-	} 
-	
-	serverWalletData = { 
-	bkash: data.settings?.bkash || "Not Set", 
-	nagad: data.settings?.nagad || "Not Set", 
-	rocket: data.settings?.rocket || "Not Set" 
-	}; 
-	updateWalletNumberDisplay(); 
-	updateAddWalletNumberDisplay(); 
-	
-	const gameCardsContainer = document.getElementById('game-cards-container'); 
-	if(gameCardsContainer) gameCardsContainer.innerHTML = ""; 
-	const games = data.games || {}; 
-	Object.keys(games).forEach(gameId => { 
-	const g = games[gameId]; 
-	if(gameCardsContainer) { 
-	gameCardsContainer.innerHTML += ` 
-	<div onclick="openGameTopup('${g.name}', '${gameId}')" class="game-card-fix cursor-pointer shadow-sm"> 
-	<img src="${g.img}" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400'" class="game-img-fix" alt="${g.name}"> 
-	<div class="p-2.5 text-center flex-grow flex flex-col justify-center bg-white border-t border-gray-100"> 
-	<h4 class="font-bold text-xs truncate text-gray-800">${g.name}</h4> 
-	<p class="text-[9px] text-blue-600 font-bold mt-0.5">● Instant Active</p> 
-	</div> 
-	</div>`; 
-	} 
-	}); 
-	
-	if(gameCardsContainer) { 
-	gameCardsContainer.innerHTML += ` 
-	<div onclick="show('history')" class="game-card-fix cursor-pointer shadow-sm"> 
-	<div class="w-full h-[110px] sm:h-[155px] bg-blue-50 flex items-center justify-center text-pipo text-2xl flex-grow"> 
-	<i class="fa-solid fa-clock-rotate-left"></i> 
-	</div> 
-	<div class="p-2.5 text-center w-full bg-white border-t border-gray-100 flex flex-col justify-center"> 
-	<h4 class="font-bold text-xs truncate text-gray-800">My Orders & History</h4> 
-	<p class="text-[9px] text-gray-400 mt-0.5">Check Status</p> 
-	</div> 
-	</div>`; 
-	} 
-	
-	globalItemsData = data.items || {}; 
-	renderFilteredPackages(); 
-	
-	const usersData = data.users || {}; 
-	const orders = data.orders || {}; 
-	const addMoneyReqs = data.addMoneyRequests || {}; 
-	currentUserBalance = 0; 
-	if(currentUser && usersData[currentUser.uid]) { 
-	currentUserBalance = usersData[currentUser.uid].balance || 0; 
-	} 
-	
-	if(document.getElementById('nav-balance-text')) document.getElementById('nav-balance-text').innerText = `৳${currentUserBalance}`; 
-	if(document.getElementById('profile-balance')) document.getElementById('profile-balance').innerText = `৳${currentUserBalance}`; 
-	if(document.getElementById('payment-wallet-balance')) document.getElementById('payment-wallet-balance').innerText = `৳${currentUserBalance}`; 
-	
-	let totalPlaced = 0, totalSuccess = 0; 
-	const hCont = document.getElementById('history-container'); 
-	if(hCont) { 
-	hCont.innerHTML = ""; 
-	if(currentUser) { 
-	Object.keys(addMoneyReqs).reverse().forEach(id => { 
-	const req = addMoneyReqs[id]; 
-	if(req.userEmail === currentUser.email) { 
-	totalPlaced++; 
-	if(req.status === 'Approved') totalSuccess++; 
-	hCont.innerHTML += ` 
-	<div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm text-black"> 
-	<div class="flex justify-between font-bold text-xs"> 
-	<span class="text-green-600">[Add Money] ৳${req.amount} (${req.method})</span> 
-	<span class="${req.status==='Approved'?'text-green-600':req.status==='Rejected'?'text-red-500':'text-orange-500'}">${req.status}</span> 
-	</div> 
-	<p class="text-[10px] text-gray-500 mt-1">TrxID: ${req.trx} | ${req.time || ''}</p> 
-	</div>`; 
-	} 
-	}); 
-	Object.keys(orders).reverse().forEach(id => { 
-	const o = orders[id]; 
-	if(o.userEmail === currentUser.email) { 
-	totalPlaced++; 
-	if(o.status === 'Approved') totalSuccess++; 
-	hCont.innerHTML += ` 
-	<div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm text-black"> 
-	<div class="flex justify-between font-bold text-xs"> 
-	<span>[Game Topup] ${o.item}</span> 
-	<span class="${o.status==='Approved'?'text-green-600':o.status==='Rejected'?'text-red-500':'text-orange-500'}">${o.status}</span> 
-	</div> 
-	<p class="text-[10px] text-gray-500 mt-1">PID: ${o.pid} | Method: ${o.method} | Price: ৳${o.price} | ${o.time || ''}</p> 
-	</div>`; 
-	} 
-	}); 
-	} 
-	} 
-	if(document.getElementById('count-total')) document.getElementById('count-total').innerText = totalPlaced; 
-	if(document.getElementById('count-success')) document.getElementById('count-success').innerText = totalSuccess; 
-	}); 
-	
-	function startBannerSlider() { 
-	if(bannerList.length === 0) return; 
-	const bannerEl = document.getElementById('promo-banner'); 
-	const dotsEl = document.getElementById('slider-dots'); 
-	bannerEl.style.backgroundImage = `url('${bannerList[currentBannerIndex]}')`; 
-	if(dotsEl) { 
-	dotsEl.innerHTML = ''; 
-	bannerList.forEach((_, idx) => { 
-	dotsEl.innerHTML += `<span class="w-2 h-2 rounded-full ${idx === currentBannerIndex ? 'bg-white' : 'bg-white/50'} inline-block"></span>`; 
-	}); 
-	} 
-	if(bannerInterval) clearInterval(bannerInterval); 
-	if(bannerList.length > 1) { 
-	bannerInterval = setInterval(() => { 
-	currentBannerIndex = (currentBannerIndex + 1) % bannerList.length; 
-	bannerEl.style.backgroundImage = `url('${bannerList[currentBannerIndex]}')`; 
-	}, 3500); 
-	} 
-	} 
-	
-	auth.onAuthStateChanged((user) => { 
-	if (user) { 
-	currentUser = { uid: user.uid, email: user.email, photoURL: user.photoURL }; 
-	let avatarUrl = user.photoURL || "https://i.ibb.co/5G02kwv/default-avatar.png"; 
+db.ref('/').on('value', (snap) => { 	
+    const data = snap.val() || {}; 	
+    isServerOnline = data.settings?.isOnline !== false; 	
+    if(document.getElementById('offline-msg')) document.getElementById('offline-msg').classList.toggle('hidden', isServerOnline); 		
+    if(document.getElementById('status-text')) { 	
+        document.getElementById('status-text').innerText = isServerOnline ? "ONLINE" : "OFFLINE"; 	
+        document.getElementById('status-text').className = isServerOnline ? "font-black text-xs text-green-400" : "font-black text-xs text-red-500"; 	
+    } 	
+    if(document.getElementById('view-notice')) document.getElementById('view-notice').innerText = data.settings?.notice || "EVO X GAMING"; 		
+    if(data.settings?.bannerUrl) { 	
+        bannerList = data.settings.bannerUrl.includes(',') ? data.settings.bannerUrl.split(',').map(s => s.trim()) : [data.settings.bannerUrl.trim()]; 	
+        startBannerSlider(); 	
+    } 		
+    serverWalletData = { 	
+        bkash: data.settings?.bkash || "Not Set", 	
+        nagad: data.settings?.nagad || "Not Set", 	
+        rocket: data.settings?.rocket || "Not Set" 	
+    }; 	
+    updateWalletNumberDisplay(); 	
+    updateAddWalletNumberDisplay(); 		
+    const gameCardsContainer = document.getElementById('game-cards-container'); 	
+    if(gameCardsContainer) gameCardsContainer.innerHTML = ""; 	
+    const games = data.games || {}; 	
+    Object.keys(games).forEach(gameId => { 	
+        const g = games[gameId]; 	
+        if(gameCardsContainer) { 	
+            gameCardsContainer.innerHTML += ` 	
+            <div onclick="openGameTopup('${g.name}', '${gameId}')" class="game-card-fix cursor-pointer shadow-sm"> 	
+            <img src="${g.img}" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400'" class="game-img-fix" alt="${g.name}"> 	
+            <div class="p-2.5 text-center flex-grow flex flex-col justify-center bg-white border-t border-gray-100"> 	
+            <h4 class="font-bold text-xs truncate text-gray-800">${g.name}</h4> 	
+            <p class="text-[9px] text-blue-600 font-bold mt-0.5">● Instant Active</p> 	
+            </div> 	
+            </div>`; 	
+        } 	
+    }); 		
+    if(gameCardsContainer) { 	
+        gameCardsContainer.innerHTML += ` 	
+        <div onclick="show('history')" class="game-card-fix cursor-pointer shadow-sm"> 	
+        <div class="w-full h-[110px] sm:h-[155px] bg-blue-50 flex items-center justify-center text-pipo text-2xl flex-grow"> 	
+        <i class="fa-solid fa-clock-rotate-left"></i> 	
+        </div> 	
+        <div class="p-2.5 text-center w-full bg-white border-t border-gray-100 flex flex-col justify-center"> 	
+        <h4 class="font-bold text-xs truncate text-gray-800">My Orders & History</h4> 	
+        <p class="text-[9px] text-gray-400 mt-0.5">Check Status</p> 	
+        </div> 	
+        </div>`; 	
+    } 		
+    globalItemsData = data.items || {}; 	
+    renderFilteredPackages(); 		
+    const usersData = data.users || {}; 	
+    const orders = data.orders || {}; 	
+    const addMoneyReqs = data.addMoneyRequests || {}; 	
+    currentUserBalance = 0; 	
+    if(currentUser && usersData[currentUser.uid]) { 	
+        currentUserBalance = usersData[currentUser.uid].balance || 0; 	
+    } 		
+    if(document.getElementById('nav-balance-text')) document.getElementById('nav-balance-text').innerText = `৳${currentUserBalance}`; 	
+    if(document.getElementById('profile-balance')) document.getElementById('profile-balance').innerText = `৳${currentUserBalance}`; 	
+    if(document.getElementById('payment-wallet-balance')) document.getElementById('payment-wallet-balance').innerText = `৳${currentUserBalance}`; 		
+    let totalPlaced = 0, totalSuccess = 0; 	
+    const hCont = document.getElementById('history-container'); 	
+    if(hCont) { 	
+        hCont.innerHTML = ""; 	
+        if(currentUser) { 	
+            Object.keys(addMoneyReqs).reverse().forEach(id => { 	
+                const req = addMoneyReqs[id]; 	
+                if(req.userEmail === currentUser.email) { 	
+                    totalPlaced++; 	
+                    if(req.status === 'Approved') totalSuccess++; 	
+                    hCont.innerHTML += ` 	
+                    <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm text-black"> 	
+                    <div class="flex justify-between font-bold text-xs"> 	
+                    <span class="text-green-600">[Add Money] ৳${req.amount} (${req.method})</span> 	
+                    <span class="${req.status==='Approved'?'text-green-600':req.status==='Rejected'?'text-red-500':'text-orange-500'}">${req.status}</span> 	
+                    </div> 	
+                    <p class="text-[10px] text-gray-500 mt-1">TrxID: ${req.trx} | ${req.time || ''}</p> 	
+                    </div>`; 	
+                } 	
+            }); 	
+            Object.keys(orders).reverse().forEach(id => { 	
+                const o = orders[id]; 	
+                if(o.userEmail === currentUser.email) { 	
+                    totalPlaced++; 	
+                    if(o.status === 'Approved') totalSuccess++; 	
+                    hCont.innerHTML += ` 	
+                    <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm text-black"> 	
+                    <div class="flex justify-between font-bold text-xs"> 	
+                    <span>[Game Topup] ${o.item}</span> 	
+                    <span class="${o.status==='Approved'?'text-green-600':o.status==='Rejected'?'text-red-500':'text-orange-500'}">${o.status}</span> 	
+                    </div> 	
+                    <p class="text-[10px] text-gray-500 mt-1">PID: ${o.pid} | Method: ${o.method} | Price: ৳${o.price} | ${o.time || ''}</p> 	
+                    </div>`; 	
+                } 	
+            }); 	
+        } 	
+    } 	
+    if(document.getElementById('count-total')) document.getElementById('count-total').innerText = totalPlaced; 	
+    if(document.getElementById('count-success')) document.getElementById('count-success').innerText = totalSuccess; 	
+}); 		
 
-	if(document.getElementById('profile-email-title')) document.getElementById('profile-email-title').innerText = user.email; 
-	if(document.getElementById('user-avatar')) document.getElementById('user-avatar').src = avatarUrl; 
-	if(document.getElementById('profile-avatar-large')) document.getElementById('profile-avatar-large').src = avatarUrl; 
-	} else { 
-	currentUser = null; 
-	} 
-	updateAuthUI(); 
-	const savedSection = sessionStorage.getItem('active_sec') || 'home'; 
-	show(savedSection); 
-	}); 
-	
-	function updateAuthUI() { 
-	const loggedInUi = document.getElementById('logged-in-ui'); 
-	const loginBtn = document.getElementById('login-btn'); 
-	const userDisplay = document.getElementById('user-display'); 
-	if (currentUser) { 
-	if(loggedInUi) loggedInUi.classList.remove('hidden'); 
-	if(loginBtn) loginBtn.classList.add('hidden'); 
-	if(userDisplay) userDisplay.innerText = currentUser.email.split('@')[0]; 
-	} else { 
-	if(loggedInUi) loggedInUi.classList.add('hidden'); 
-	if(loginBtn) loginBtn.classList.remove('hidden'); 
-	} 
-	} 
-	
-	function show(sectionId) { 
-	sessionStorage.setItem('active_sec', sectionId); 
-	['home', 'topup', 'login', 'history', 'addmoney'].forEach(sec => { 
-	const el = document.getElementById('section-' + sec); 
-	if (el) { 
-	if (sec === sectionId) el.classList.remove('hidden-section'); 
-	else el.classList.add('hidden-section'); 
-	} 
-	}); 
-	} 
-	
-	function toggleAuthTab(mode) { 
-	authMode = mode; 
-	const tabLogin = document.getElementById('tab-login'); 
-	const tabSignup = document.getElementById('tab-signup'); 
-	const mainBtn = document.getElementById('auth-main-btn'); 
-	const title = document.getElementById('auth-title'); 
-	if(mode === 'in') { 
-	tabLogin.className = "flex-1 pb-2 font-bold border-b-2 border-pipo text-pipo"; 
-	tabSignup.className = "flex-1 pb-2 font-bold text-gray-400"; 
-	mainBtn.innerText = "Login"; 
-	title.innerText = "Welcome Back"; 
-	} else { 
-	tabSignup.className = "flex-1 pb-2 font-bold border-b-2 border-pipo text-pipo"; 
-	tabLogin.className = "flex-1 pb-2 font-bold text-gray-400"; 
-	mainBtn.innerText = "Sign Up"; 
-	title.innerText = "Get Started"; 
-	} 
-	} 
-	
-	function handleAuth() { 
-	const email = document.getElementById('auth-email').value.trim(); 
-	const pass = document.getElementById('auth-pass').value; 
-	if(!email || !pass) return alert("দয়া করে ইমেইল এবং পাসওয়ার্ড দিন!"); 
-	if(authMode === 'in') { 
-	auth.signInWithEmailAndPassword(email, pass).then(() => { alert("লগইন সফল!"); show('home'); }).catch(e => alert(e.message)); 
-	} else { 
-	auth.createUserWithEmailAndPassword(email, pass).then(() => { alert("অ্যাকাউন্ট তৈরি সফল!"); show('home'); }).catch(e => alert(e.message)); 
-	} 
-	} 
-	
-	function loginWithGoogle() { 
-	const provider = new firebase.auth.GoogleAuthProvider(); 
-	auth.signInWithPopup(provider).then(() => { alert("লগইন সফল!"); show('home'); }).catch(e => alert(e.message)); 
-	} 
-	
-	function handleLogout() { 
-	auth.signOut().then(() => { currentUser = null; sessionStorage.clear(); window.location.reload(); }); 
-	} 
-	
-	function selectMethod(method) { 
-	selectedMethod = method; 
-	if(document.getElementById('selected-method-name')) document.getElementById('selected-method-name').innerText = method; 
-	updateWalletNumberDisplay(); 
-	
-	const walletBox = document.getElementById('wallet-payment-box'); 
-	const manualBox = document.getElementById('manual-payment-box'); 
-	if(method === 'Wallet') { 
-	walletBox.classList.remove('hidden'); 
-	manualBox.classList.add('hidden'); 
-	} else { 
-	walletBox.classList.add('hidden'); 
-	manualBox.classList.remove('hidden'); 
-	} 
-	['Wallet', 'bKash', 'Nagad', 'Rocket'].forEach(m => { 
-	const el = document.getElementById('method-' + m.toLowerCase()); 
-	if (el) { 
-	if (m === method) el.classList.add('method-active'); 
-	else el.classList.remove('method-active'); 
-	} 
-	}); 
-	} 
-	
-	function updateWalletNumberDisplay() { 
-	const viewNum = document.getElementById('view-num'); 
-	if(viewNum) { 
-	if(selectedMethod === 'bKash') viewNum.innerText = serverWalletData.bkash || "Not Set"; 
-	if(selectedMethod === 'Nagad') viewNum.innerText = serverWalletData.nagad || "Not Set"; 
-	if(selectedMethod === 'Rocket') viewNum.innerText = serverWalletData.rocket || "Not Set"; 
-	} 
-	} 
-	
-	function selectAddMethod(method) { 
-	selectedAddMethod = method; 
-	updateAddWalletNumberDisplay(); 
-	['bKash', 'Nagad', 'Rocket'].forEach(m => { 
-	const el = document.getElementById('add-method-' + m.toLowerCase()); 
-	if (el) { 
-	if (m === method) el.classList.add('method-active'); 
-	else el.classList.remove('method-active'); 
-	} 
-	}); 
-	} 
-	
-	function updateAddWalletNumberDisplay() { 
-	const viewNum = document.getElementById('add-wallet-num'); 
-	if(viewNum) { 
-	if(selectedAddMethod === 'bKash') viewNum.innerText = serverWalletData.bkash || "Not Set"; 
-	if(selectedAddMethod === 'Nagad') viewNum.innerText = serverWalletData.nagad || "Not Set"; 
-	if(selectedAddMethod === 'Rocket') viewNum.innerText = serverWalletData.rocket || "Not Set"; 
-	} 
-	} 
-	
-	function openAddMoneyModal() { 
-	if(!currentUser) { alert("প্রথমে লগইন করুন!"); show('login'); return; } 
-	updateAddWalletNumberDisplay(); 
-	show('addmoney'); 
-	} 
-	
-	function submitAddMoney() { 
-	if(!currentUser) { alert("প্রথমে লগইন করুন!"); show('login'); return; } 
-	const amount = document.getElementById('add-amount').value.trim(); 
-	const trx = document.getElementById('add-trx').value.trim(); 
-	if(!amount || amount <= 0) return alert("সঠিক পরিমাণ টাকা দিন!"); 
-	if(!trx) return alert("Transaction ID (TrxID) দিন!"); 
-	
-	const requestData = { 
-	userEmail: currentUser.email, 
-	userId: currentUser.uid, 
-	amount: Number(amount), 
-	method: selectedAddMethod, 
-	trx: trx, 
-	status: 'Pending', 
-	time: new Date().toLocaleString('bn-BD') 
-	}; 
-	db.ref('addMoneyRequests').push(requestData).then(() => { 
-	alert("অনুরোধ সফলভাবে জমা হয়েছে!"); 
-	document.getElementById('add-amount').value = ""; 
-	document.getElementById('add-trx').value = ""; 
-	show('history'); 
-	}).catch(e => alert(e.message)); 
-	} 
-	
-	function openGameTopup(gameTitle, categoryKey) { 
-	if(!isServerOnline) return; 
-	activeCategory = categoryKey; 
-	selectedPkg = null; 
-	if(document.getElementById('topup-game-title')) document.getElementById('topup-game-title').innerText = gameTitle; 
-	if(document.getElementById('checkout-total-price')) document.getElementById('checkout-total-price').innerText = `৳0`; 
-	renderFilteredPackages(); 
-	show('topup'); 
-	} 
-	
-	function renderFilteredPackages() { 
-	const itemCont = document.getElementById('item-list'); 
-	if (!itemCont) return; 
-	itemCont.innerHTML = ""; 
-	let hasItems = false; 
-	Object.keys(globalItemsData).forEach(id => { 
-	const i = globalItemsData[id]; 
-	if(i.category === activeCategory) { 
-	hasItems = true; 
-	itemCont.innerHTML += ` 
-	<div onclick="selectPackage('${id}', '${i.name}', ${i.price}, this)" class="pkg-card p-3 text-center cursor-pointer item-pkg-card"> 
-	<p class="font-bold text-xs text-gray-800">${i.name}</p> 
-	<p class="text-xs text-pipo font-black mt-1">৳${i.price}</p> 
-	</div>`; 
-	} 
-	}); 
-	if(!hasItems) { 
-	itemCont.innerHTML = `<p class="col-span-2 sm:col-span-3 text-center text-xs text-gray-400 py-3">কোন প্যাকেজ নেই!</p>`; 
-	} 
-	} 
-	
-	function selectPackage(id, name, price, el) { 
-	selectedPkg = { id, name, price }; 
-	document.querySelectorAll('.item-pkg-card').forEach(card => card.classList.remove('card-active')); 
-	if(el) el.classList.add('card-active'); 
-	if(document.getElementById('checkout-total-price')) { 
-	document.getElementById('checkout-total-price').innerText = `৳${price}`; 
-	} 
-	} 
-	
-	function placeOrder() { 
-	if(!isServerOnline) return alert("সার্ভার অফলাইন!"); 
-	if(!currentUser) { alert("প্রথমে লগইন করুন!"); show('login'); return; } 
-	const pid = document.getElementById('order-pid').value.trim(); 
-	if(!pid) return alert("Player ID দিন!"); 
-	if(!selectedPkg) return alert("প্যাকেজ সিলেক্ট করুন!"); 
-	
-	if(selectedMethod === 'Wallet') { 
-	if(currentUserBalance < selectedPkg.price) { 
-	return alert("ওয়ালেটে পর্যাপ্ত ব্যালেন্স নেই! দয়া করে Add Money করুন।"); 
-	} 
-	const newBalance = currentUserBalance - selectedPkg.price; 
-	db.ref(`users/${currentUser.uid}/balance`).set(newBalance).then(() => { 
-	const orderData = { 
-	userEmail: currentUser.email, 
-	userId: currentUser.uid, 
-	pid: pid, 
-	item: selectedPkg.name, 
-	price: selectedPkg.price, 
-	method: 'Wallet Balance', 
-	trx: 'WALLET_PAID', 
-	status: 'Pending', 
-	time: new Date().toLocaleString('bn-BD') 
-	}; 
-	db.ref('orders').push(orderData).then(() => { 
-	alert("ওয়ালেট থেকে পেমেন্ট সফল হয়েছে!"); 
-	document.getElementById('order-pid').value = ""; 
-	selectedPkg = null; 
-	show('history'); 
-	}); 
-	}); 
-	} else { 
-	const trx = document.getElementById('order-trx').value.trim(); 
-	if(!trx) return alert("TrxID দিন!"); 
-	const orderData = { 
-	userEmail: currentUser.email, 
-	userId: currentUser.uid, 
-	pid: pid, 
-	item: selectedPkg.name, 
-	price: selectedPkg.price, 
-	method: selectedMethod, 
-	trx: trx, 
-	status: 'Pending', 
-	time: new Date().toLocaleString('bn-BD') 
-	}; 
-	db.ref('orders').push(orderData).then(() => { 
-	alert("অর্ডার জমা হয়েছে!"); 
-	document.getElementById('order-pid').value = ""; 
-	document.getElementById('order-trx').value = ""; 
-	selectedPkg = null; 
-	show('history'); 
-	}); 
-	} 
-	} 
-	</script> 
-	</body> 
-	</html> 
+function startBannerSlider() { 	
+    if(bannerList.length === 0) return; 	
+    const bannerEl = document.getElementById('promo-banner'); 	
+    const dotsEl = document.getElementById('slider-dots'); 	
+    bannerEl.style.backgroundImage = `url('${bannerList[currentBannerIndex]}')`; 	
+    if(dotsEl) { 	
+        dotsEl.innerHTML = ''; 	
+        bannerList.forEach((_, idx) => { 	
+            dotsEl.innerHTML += `<span class="w-2 h-2 rounded-full ${idx === currentBannerIndex ? 'bg-white' : 'bg-white/50'} inline-block"></span>`; 	
+        }); 	
+    } 	
+    if(bannerInterval) clearInterval(bannerInterval); 	
+    if(bannerList.length > 1) { 	
+        bannerInterval = setInterval(() => { 	
+            currentBannerIndex = (currentBannerIndex + 1) % bannerList.length; 	
+            bannerEl.style.backgroundImage = `url('${bannerList[currentBannerIndex]}')`; 	
+        }, 3500); 	
+    } 	
+} 		
+
+auth.onAuthStateChanged((user) => { 	
+    if (user) { 	
+        currentUser = { uid: user.uid, email: user.email, photoURL: user.photoURL }; 	
+        let avatarUrl = user.photoURL || "https://i.ibb.co/5G02kwv/default-avatar.png"; 	
+        if(document.getElementById('profile-email-title')) document.getElementById('profile-email-title').innerText = user.email; 	
+        if(document.getElementById('user-avatar')) document.getElementById('user-avatar').src = avatarUrl; 	
+        if(document.getElementById('profile-avatar-large')) document.getElementById('profile-avatar-large').src = avatarUrl; 	
+    } else { 	
+        currentUser = null; 	
+    } 	
+    updateAuthUI(); 	
+    const savedSection = sessionStorage.getItem('active_sec') || 'home'; 	
+    show(savedSection); 	
+}); 		
+
+function updateAuthUI() { 	
+    const loggedInUi = document.getElementById('logged-in-ui'); 	
+    const loginBtn = document.getElementById('login-btn'); 	
+    const userDisplay = document.getElementById('user-display'); 	
+    if (currentUser) { 	
+        if(loggedInUi) loggedInUi.classList.remove('hidden'); 	
+        if(loginBtn) loginBtn.classList.add('hidden'); 	
+        if(userDisplay) userDisplay.innerText = currentUser.email.split('@')[0]; 	
+    } else { 	
+        if(loggedInUi) loggedInUi.classList.add('hidden'); 	
+        if(loginBtn) loginBtn.classList.remove('hidden'); 	
+    } 	
+} 		
+
+function show(sectionId) { 	
+    sessionStorage.setItem('active_sec', sectionId); 	
+    ['home', 'topup', 'login', 'history', 'addmoney'].forEach(sec => { 	
+        const el = document.getElementById('section-' + sec); 	
+        if (el) { 	
+            if (sec === sectionId) el.classList.remove('hidden-section'); 	
+            else el.classList.add('hidden-section'); 	
+        } 	
+    }); 	
+} 		
+
+function toggleAuthTab(mode) { 	
+    authMode = mode; 	
+    const tabLogin = document.getElementById('tab-login'); 	
+    const tabSignup = document.getElementById('tab-signup'); 	
+    const mainBtn = document.getElementById('auth-main-btn'); 	
+    const title = document.getElementById('auth-title'); 	
+    if(mode === 'in') { 	
+        tabLogin.className = "flex-1 pb-2 font-bold border-b-2 border-pipo text-pipo"; 	
+        tabSignup.className = "flex-1 pb-2 font-bold text-gray-400"; 	
+        mainBtn.innerText = "Login"; 	
+        title.innerText = "Welcome Back"; 	
+    } else { 	
+        tabSignup.className = "flex-1 pb-2 font-bold border-b-2 border-pipo text-pipo"; 	
+        tabLogin.className = "flex-1 pb-2 font-bold text-gray-400"; 	
+        mainBtn.innerText = "Sign Up"; 	
+        title.innerText = "Get Started"; 	
+    } 	
+} 		
+
+function handleAuth() { 	
+    const email = document.getElementById('auth-email').value.trim(); 	
+    const pass = document.getElementById('auth-pass').value; 	
+    if(!email || !pass) return alert("দয়া করে ইমেইল এবং পাসওয়ার্ড দিন!"); 	
+    if(authMode === 'in') { 	
+        auth.signInWithEmailAndPassword(email, pass).then(() => { alert("লগইন সফল!"); show('home'); }).catch(e => alert(e.message)); 	
+    } else { 	
+        auth.createUserWithEmailAndPassword(email, pass).then(() => { alert("অ্যাকাউন্ট তৈরি সফল!"); show('home'); }).catch(e => alert(e.message)); 	
+    } 	
+} 		
+
+function loginWithGoogle() { 	
+    const provider = new firebase.auth.GoogleAuthProvider(); 	
+    auth.signInWithPopup(provider).then(() => { alert("লগইন সফল!"); show('home'); }).catch(e => alert(e.message)); 	
+} 		
+
+function handleLogout() { 	
+    auth.signOut().then(() => { currentUser = null; sessionStorage.clear(); window.location.reload(); }); 	
+} 		
+
+function selectMethod(method) { 	
+    selectedMethod = method; 	
+    if(document.getElementById('selected-method-name')) document.getElementById('selected-method-name').innerText = method; 	
+    updateWalletNumberDisplay(); 		
+    const walletBox = document.getElementById('wallet-payment-box'); 	
+    const manualBox = document.getElementById('manual-payment-box'); 	
+    if(method === 'Wallet') { 	
+        walletBox.classList.remove('hidden'); 	
+        manualBox.classList.add('hidden'); 	
+    } else { 	
+        walletBox.classList.add('hidden'); 	
+        manualBox.classList.remove('hidden'); 	
+    } 	
+    ['Wallet', 'bKash', 'Nagad', 'Rocket'].forEach(m => { 	
+        const el = document.getElementById('method-' + m.toLowerCase()); 	
+        if (el) { 	
+            if (m === method) el.classList.add('method-active'); 	
+            else el.classList.remove('method-active'); 	
+        } 	
+    }); 	
+} 		
+
+function updateWalletNumberDisplay() { 	
+    const viewNum = document.getElementById('view-num'); 	
+    if(viewNum) { 	
+        if(selectedMethod === 'bKash') viewNum.innerText = serverWalletData.bkash || "Not Set"; 	
+        if(selectedMethod === 'Nagad') viewNum.innerText = serverWalletData.nagad || "Not Set"; 	
+        if(selectedMethod === 'Rocket') viewNum.innerText = serverWalletData.rocket || "Not Set"; 	
+    } 	
+} 		
+
+function selectAddMethod(method) { 	
+    selectedAddMethod = method; 	
+    updateAddWalletNumberDisplay(); 	
+    ['bKash', 'Nagad', 'Rocket'].forEach(m => { 	
+        const el = document.getElementById('add-method-' + m.toLowerCase()); 	
+        if (el) { 	
+            if (m === method) el.classList.add('method-active'); 	
+            else el.classList.remove('method-active'); 	
+        } 	
+    }); 	
+} 		
+
+function updateAddWalletNumberDisplay() { 	
+    const viewNum = document.getElementById('add-wallet-num'); 	
+    if(viewNum) { 	
+        if(selectedAddMethod === 'bKash') viewNum.innerText = serverWalletData.bkash || "Not Set"; 	
+        if(selectedAddMethod === 'Nagad') viewNum.innerText = serverWalletData.nagad || "Not Set"; 	
+        if(selectedAddMethod === 'Rocket') viewNum.innerText = serverWalletData.rocket || "Not Set"; 	
+    } 	
+} 		
+
+function openAddMoneyModal() { 	
+    if(!currentUser) { alert("প্রথমে লগইন করুন!"); show('login'); return; } 	
+    updateAddWalletNumberDisplay(); 	
+    show('addmoney'); 	
+} 		
+
+function submitAddMoney() { 	
+    if(!currentUser) { alert("প্রথমে লগইন করুন!"); show('login'); return; } 	
+    const amount = document.getElementById('add-amount').value.trim(); 	
+    const trx = document.getElementById('add-trx').value.trim(); 	
+    if(!amount || amount <= 0) return alert("সঠিক পরিমাণ টাকা দিন!"); 	
+    if(!trx) return alert("Transaction ID (TrxID) দিন!"); 		
+    const requestData = { 	
+        userEmail: currentUser.email, 	
+        userId: currentUser.uid, 	
+        amount: Number(amount), 	
+        method: selectedAddMethod, 	
+        trx: trx, 	
+        status: 'Pending', 	
+        time: new Date().toLocaleString('bn-BD') 	
+    }; 	
+    db.ref('addMoneyRequests').push(requestData).then(() => { 	
+        alert("অনুরোধ সফলভাবে জমা হয়েছে!"); 	
+        document.getElementById('add-amount').value = ""; 	
+        document.getElementById('add-trx').value = ""; 	
+        show('history'); 	
+    }).catch(e => alert(e.message)); 	
+} 		
+
+function openGameTopup(gameTitle, categoryKey) { 	
+    if(!isServerOnline) return; 	
+    activeCategory = categoryKey; 	
+    selectedPkg = null; 	
+    if(document.getElementById('topup-game-title')) document.getElementById('topup-game-title').innerText = gameTitle; 	
+    if(document.getElementById('checkout-total-price')) document.getElementById('checkout-total-price').innerText = `৳0`; 	
+    renderFilteredPackages(); 	
+    show('topup'); 	
+} 		
+
+function renderFilteredPackages() { 	
+    const itemCont = document.getElementById('item-list'); 	
+    if (!itemCont) return; 	
+    itemCont.innerHTML = ""; 	
+    let hasItems = false; 	
+    Object.keys(globalItemsData).forEach(id => { 	
+        const i = globalItemsData[id]; 	
+        if(i.category === activeCategory) { 	
+            hasItems = true; 	
+            itemCont.innerHTML += ` 	
+            <div onclick="selectPackage('${id}', '${i.name}', ${i.price}, this)" class="pkg-card p-3 text-center cursor-pointer item-pkg-card"> 	
+            <p class="font-bold text-xs text-gray-800">${i.name}</p> 	
+            <p class="text-xs text-pipo font-black mt-1">৳${i.price}</p> 	
+            </div>`; 	
+        } 	
+    }); 	
+    if(!hasItems) { 	
+        itemCont.innerHTML = `<p class="col-span-2 sm:col-span-3 text-center text-xs text-gray-400 py-3">কোন প্যাকেজ নেই!</p>`; 	
+    } 	
+} 		
+
+function selectPackage(id, name, price, el) { 	
+    selectedPkg = { id, name, price }; 	
+    document.querySelectorAll('.item-pkg-card').forEach(card => card.classList.remove('card-active')); 	
+    if(el) el.classList.add('card-active'); 	
+    if(document.getElementById('checkout-total-price')) { 	
+        document.getElementById('checkout-total-price').innerText = `৳${price}`; 	
+    } 	
+} 		
+
+function placeOrder() { 	
+    if(!isServerOnline) return alert("সার্ভার অফলাইন!"); 	
+    if(!currentUser) { alert("প্রথমে লগইন করুন!"); show('login'); return; } 	
+    const pid = document.getElementById('order-pid').value.trim(); 	
+    if(!pid) return alert("Player ID দিন!"); 	
+    if(!selectedPkg) return alert("প্যাকেজ সিলেক্ট করুন!"); 		
+    if(selectedMethod === 'Wallet') { 	
+        if(currentUserBalance < selectedPkg.price) { 	
+            return alert("ওয়ালেটে পর্যাপ্ত ব্যালেন্স নেই! দয়া করে Add Money করুন।"); 	
+        } 	
+        const newBalance = currentUserBalance - selectedPkg.price; 	
+        db.ref(`users/${currentUser.uid}/balance`).set(newBalance).then(() => { 	
+            const orderData = { 	
+                userEmail: currentUser.email, 	
+                userId: currentUser.uid, 	
+                pid: pid, 	
+                item: selectedPkg.name, 	
+                price: selectedPkg.price, 	
+                method: 'Wallet Balance', 	
+                trx: 'WALLET_PAID', 	
+                status: 'Pending', 	
+                time: new Date().toLocaleString('bn-BD') 	
+            }; 	
+            db.ref('orders').push(orderData).then(() => { 	
+                alert("ওয়ালেট থেকে পেমেন্ট সফল হয়েছে!"); 	
+                document.getElementById('order-pid').value = ""; 	
+                selectedPkg = null; 	
+                show('history'); 	
+            }); 	
+        }); 	
+    } else { 	
+        const trx = document.getElementById('order-trx').value.trim(); 	
+        if(!trx) return alert("TrxID দিন!"); 	
+        const orderData = { 	
+            userEmail: currentUser.email, 	
+            userId: currentUser.uid, 	
+            pid: pid, 	
+            item: selectedPkg.name, 	
+            price: selectedPkg.price, 	
+            method: selectedMethod, 	
+            trx: trx, 	
+            status: 'Pending', 	
+            time: new Date().toLocaleString('bn-BD') 	
+        }; 	
+        db.ref('orders').push(orderData).then(() => { 	
+            alert("অর্ডার জমা হয়েছে!"); 	
+            document.getElementById('order-pid').value = ""; 	
+            document.getElementById('order-trx').value = ""; 	
+            selectedPkg = null; 	
+            show('history'); 	
+        }); 	
+    } 	
+} 	
+</script> 	
+</body> 	
+</html>
